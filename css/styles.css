@@ -1,0 +1,27 @@
+body{
+    background-color: #252525;
+    font-family: sans-serif;
+    color: black;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+}
+
+header{
+    width: 100%;
+    background-color: whitesmoke;
+    border-bottom: 4px solid darkgray;
+    display: flex;
+}
+
+.carrusel{
+        
+}
+
+footer{
+    position: absolute;
+    bottom: 0px;
+    width: 100%;
+    background-color: whitesmoke;
+    border-top: 4px solid darkgray;
+}
