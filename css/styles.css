@@ -15,14 +15,57 @@ header{
 }
 
 .carrusel{
-    width: 1200px;
+    width: 1000px;
     height: 400px;
-    background-color: white;
+    position: relative;
+    margin: 50px auto;
+    background-color: rgb(157, 157, 157);
 }
 
+.prev, .next {
+    cursor: pointer;
+    position: absolute;
+    top: 50%;
+    width: auto;
+    margin-top: -22px;
+    padding: 16px;
+    color: white;
+    font-weight: bold;
+    font-size: 18px;
+    transition: 0.3s ease;
+    border-radius: 50%;
+    user-select: none;
+}
+
+.next {
+  right: 0;
+  border-radius: 50%;
+}
+
+/* On hover, add a black background color with a little bit see-through */
+.prev:hover, .next:hover {
+  background-color: #252525;
+  transform: scale(1.1);
+}
+
+.boton {
+    cursor: pointer;
+    height: 15px;
+    width: 15px;
+    margin: 0 2px;
+    background-color: #bbb;
+    border-radius: 50%;
+    display: inline-block;
+    transition: background-color 0.3s ease;
+}
+
+.active, .boton:hover {
+    background-color: #717171;
+  }
+
 .contenedor-redes{
-    margin-top: -5px;
-    margin-bottom: 10px;
+    margin-top: -10px;
+    margin-bottom: 5px;
 }
 
 .contenedor-redes img{
