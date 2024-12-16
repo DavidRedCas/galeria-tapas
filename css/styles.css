@@ -15,7 +15,18 @@ header{
 }
 
 .carrusel{
-        
+    width: 1200px;
+    height: 400px;
+    background-color: white;
+}
+
+.contenedor-redes{
+    margin-top: -5px;
+    margin-bottom: 10px;
+}
+
+.contenedor-redes img{
+    width: 32px;
 }
 
 footer{
