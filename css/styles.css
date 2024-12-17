@@ -75,7 +75,7 @@ header{
     height: 14px;
     width: 14px;
     margin: 0 2px;
-    background-color: white;
+    background-color: whitesmoke;
     border-radius: 50%;
     display: inline-block;
     transition: background-color 0.2s ease;
@@ -83,11 +83,40 @@ header{
 
 .boton:hover {
     background-color: gray;
-  }
+}
+
+h2{
+    color: #f0f0f0;
+    font-size: 32px;
+}
+
+.grid-galeria{
+    padding: 50px;
+    display: grid;
+    grid-template-columns: auto auto auto;
+    grid-template-rows: auto auto; 
+    grid-column-gap: 30px;
+    grid-row-gap: 30px;
+    justify-content: center;
+    justify-self: center;
+    max-width: 1200px;
+}
+
+.elemento-grid{
+    background-color: white;
+    border: 2px solid darkgray;
+    border-radius: 10px;
+    text-align: left;
+    max-width: 400px;
+    max-height: 200px;
+    padding: 15px;
+}
+
+.elemento-grid p{
+    border-top: 2px solid darkgray;
+}
   
 footer{
-    position: absolute;
-    bottom: 0px;
     width: 100%;
     background-color: whitesmoke;
     border-top: 4px solid darkgray;
