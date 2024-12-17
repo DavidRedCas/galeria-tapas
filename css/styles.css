@@ -18,34 +18,46 @@ header{
     width: 1000px;
     height: 400px;
     position: relative;
-    margin: 50px auto;
-    background-color: rgb(157, 157, 157);
+    margin: 10px auto;
+    background-color: rgb(77, 77, 77);
 }
 
 .prev, .next {
     cursor: pointer;
     position: absolute;
     top: 50%;
-    width: auto;
-    margin-top: -22px;
-    padding: 16px;
+    width: 20px;
+    margin-top: -45px;
+    padding: 10px;
     color: white;
     font-weight: bold;
-    font-size: 18px;
-    transition: 0.3s ease;
-    border-radius: 50%;
+    font-size: 32px;
+    transition: 0.2s ease;
     user-select: none;
+    border-radius: 50%;
+}
+
+.prev{
+    left: 0;
 }
 
 .next {
-  right: 0;
-  border-radius: 50%;
+    right: 0;
 }
 
-/* On hover, add a black background color with a little bit see-through */
 .prev:hover, .next:hover {
-  background-color: #252525;
-  transform: scale(1.1);
+    color: darkgray;
+    transform: scale(1.22);
+}
+
+.prev:active, .next:active {
+    transform: scale(1);
+}
+
+.botones-carrusel{
+    cursor: default;
+    position: relative;
+    top: -40px;
 }
 
 .boton {
@@ -53,14 +65,14 @@ header{
     height: 15px;
     width: 15px;
     margin: 0 2px;
-    background-color: #bbb;
+    background-color: white;
     border-radius: 50%;
     display: inline-block;
-    transition: background-color 0.3s ease;
+    transition: background-color 0.2s ease;
 }
 
 .active, .boton:hover {
-    background-color: #717171;
+    background-color: gray;
   }
 
 .contenedor-redes{
