@@ -54,6 +54,16 @@ header{
     transform: scale(1);
 }
 
+.creditos {
+    color: whitesmoke;
+    font-size: 14px;
+    padding: 0px 10px;
+    position: absolute;
+    bottom: 10px;
+    width: 100%;
+    text-align: left;
+  }
+
 .botones-carrusel{
     cursor: default;
     position: relative;
@@ -62,8 +72,8 @@ header{
 
 .boton {
     cursor: pointer;
-    height: 15px;
-    width: 15px;
+    height: 14px;
+    width: 14px;
     margin: 0 2px;
     background-color: white;
     border-radius: 50%;
@@ -71,7 +81,7 @@ header{
     transition: background-color 0.2s ease;
 }
 
-.active, .boton:hover {
+.boton:hover {
     background-color: gray;
   }
 
