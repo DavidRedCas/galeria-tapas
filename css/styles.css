@@ -84,6 +84,19 @@ header{
 .boton:hover {
     background-color: gray;
   }
+  
+footer{
+    position: absolute;
+    bottom: 0px;
+    width: 100%;
+    background-color: whitesmoke;
+    border-top: 4px solid darkgray;
+}
+
+footer p{
+    font-size: 15px;
+    margin-top: 10px;
+}
 
 .contenedor-redes{
     margin-top: -10px;
@@ -92,12 +105,9 @@ header{
 
 .contenedor-redes img{
     width: 32px;
+    height: 32px;
 }
 
-footer{
-    position: absolute;
-    bottom: 0px;
-    width: 100%;
-    background-color: whitesmoke;
-    border-top: 4px solid darkgray;
+.contenedor-redes img:hover{
+    cursor: pointer;
 }
