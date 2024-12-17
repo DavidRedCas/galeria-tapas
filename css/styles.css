@@ -19,6 +19,7 @@ header{
     height: 400px;
     position: relative;
     margin: 10px auto;
+    margin-top: 40px;
     background-color: rgb(77, 77, 77);
 }
 
@@ -96,24 +97,27 @@ h2{
     grid-template-columns: auto auto auto;
     grid-template-rows: auto auto; 
     grid-column-gap: 30px;
-    grid-row-gap: 30px;
+    grid-row-gap: 50px;
     justify-content: center;
     justify-self: center;
     max-width: 1200px;
 }
 
 .elemento-grid{
-    background-color: white;
-    border: 2px solid darkgray;
+    background-color: rgb(235, 235, 235);
+    border: 3px solid darkgray;
     border-radius: 10px;
     text-align: left;
-    max-width: 400px;
-    max-height: 200px;
     padding: 15px;
 }
 
 .elemento-grid p{
     border-top: 2px solid darkgray;
+}
+
+.elemento-grid img{
+    max-width: 400px;
+    max-height: 200px;
 }
   
 footer{
