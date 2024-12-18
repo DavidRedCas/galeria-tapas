@@ -78,7 +78,7 @@ button:hover{
 
 .carrusel{
     max-width: 1200px;
-    max-height: 400px;
+    max-height: 750px;
     position: relative;
     margin: 10px auto;
     margin-top: 40px;
@@ -87,7 +87,7 @@ button:hover{
 
 .carrusel img{
     width: 1200px;
-    height: 400px;
+    height: 750px;
 }
 
 .prev, .next {
@@ -163,12 +163,10 @@ h2{
     padding: 50px;
     display: grid;
     grid-template-columns: auto auto auto;
-    grid-template-rows: auto auto; 
     grid-column-gap: 60px;
     grid-row-gap: 80px;
     justify-content: center;
-    justify-self: center;
-    max-width: 1200px;
+    margin: auto;
 }
 
 .elemento-grid{
