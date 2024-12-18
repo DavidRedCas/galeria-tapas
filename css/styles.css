@@ -1,5 +1,5 @@
 body{
-    background-color: #252525;
+    background-color: #181818;
     font-family: sans-serif;
     color: black;
     margin: 0;
@@ -9,8 +9,8 @@ body{
 
 header{
     width: 100%;
-    background-color: whitesmoke;
-    border-bottom: 4px solid darkgray;
+    background-color: #ebebeb;
+    border-bottom: 4px solid gray;
     display: flex;
     justify-content: space-between;
 }
@@ -41,7 +41,7 @@ h1{
 input[type=text]{
     width: 400px;
     height: 32px;
-    border: 3px solid darkgray;
+    border: 3px solid gray;
     border-radius: 7px;
     font-size: 0.9rem;
     margin-right: 5px;
@@ -50,7 +50,6 @@ input[type=text]{
 button{
     width: 90px;
     height: 40px;
-    border: 3px solid darkgray;
     border-radius: 10px;
     font-weight: bold;
     font-size: 1rem;
@@ -62,14 +61,16 @@ button:hover{
 }
 
 .boton-buscar{
-    background-color: white;
+    background-color: whitesmoke;
     margin-right: 30px;
+    border: 3px solid gray;
 }
 
 .boton-login{
-    background-color: gray;
+    background-color: #4d4d4d;
     color: white;
     margin-right: 100px;
+    border: 3px solid darkgray;
 }
 
 button:hover{
@@ -83,11 +84,13 @@ button:hover{
     margin: 10px auto;
     margin-top: 40px;
     background-color: rgb(77, 77, 77);
+    border-radius: 10px;
 }
 
 .carrusel img{
     width: 1200px;
     height: 750px;
+    border-radius: 10px;
 }
 
 .prev, .next {
@@ -97,7 +100,7 @@ button:hover{
     width: 20px;
     margin-top: -45px;
     padding: 10px;
-    color: white;
+    color: #ebebeb;
     font-weight: bold;
     font-size: 32px;
     transition: 0.15s ease;
@@ -143,7 +146,7 @@ button:hover{
     height: 13px;
     width: 13px;
     margin: 0 2px;
-    background-color: whitesmoke;
+    background-color: #ebebeb;
     border-radius: 50%;
     display: inline-block;
     transition: background-color 0.2s ease;
@@ -155,12 +158,13 @@ button:hover{
 }
 
 h2{
-    color: #f0f0f0;
-    font-size: 2rem;
+    color: #ebebeb;
+    font-size: 2.5rem;
+    margin-top: 50px;
 }
 
 .grid-galeria{
-    padding: 50px;
+    padding: 20px 0 80px 0;
     display: grid;
     grid-template-columns: auto auto auto;
     grid-column-gap: 60px;
@@ -170,8 +174,8 @@ h2{
 }
 
 .elemento-grid{
-    background-color: whitesmoke;
-    border: 4px solid darkgray;
+    background-color: #ebebeb;
+    border: 4px solid gray;
     border-radius: 10px;
     text-align: left;
     transition: 0.2s ease;
@@ -186,18 +190,18 @@ h2{
     border-radius: 6px 6px 0px 0px;
     width: 400px;
     height: 250px;
-    border-bottom: 4px solid darkgray;
+    border-bottom: 4px solid gray;
 }
 
 .elemento-grid:hover{
     transform: translateY(-10px);
-    box-shadow: 6px 8px 0px rgb(80, 80, 80);
+    box-shadow: 6px 8px 0px rgb(59, 59, 59);
 }
   
 footer{
     width: 100%;
-    background-color: whitesmoke;
-    border-top: 4px solid darkgray;
+    background-color: #ebebeb;
+    border-top: 4px solid gray;
 }
 
 footer p{
