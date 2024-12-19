@@ -58,12 +58,17 @@ button{
 
 button:hover{
     transform: scale(1.05);
+    cursor: pointer;
 }
 
 .boton-buscar{
     background-color: whitesmoke;
     margin-right: 30px;
     border: 3px solid gray;
+}
+
+.boton-buscar:hover{
+    background-color: lightgray;
 }
 
 .boton-login{
@@ -73,8 +78,12 @@ button:hover{
     border: 3px solid darkgray;
 }
 
-button:hover{
-    cursor: pointer;
+.boton-login:hover{
+    background-color: #6e6e6e;
+}
+
+button:active{
+    transform: scale(1);
 }
 
 .carrusel{
@@ -179,11 +188,16 @@ h2{
     border-radius: 10px;
     text-align: left;
     transition: 0.2s ease;
+    max-width: 400px;
 }
 
 .elemento-grid p{
     margin: 12px;
     font-size: 1.1rem;
+}
+
+strong{
+    font-size: 1.2rem;
 }
 
 .elemento-grid img{
