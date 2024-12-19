@@ -13,3 +13,4 @@ Para la galería hemos hecho un grid adaptativo para diferentes tamaños máximo
 
 Para el logo y los iconos del footer se han usado imágenes vectoriales. El logo fue generado con IA, adaptado con Photoshop y convertido a svg con https://convertio.co/es/
 
+La estética general es simple, en escala de grises y fondo oscuro, con los elementos de la galería en color contrastante.
