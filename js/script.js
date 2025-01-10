@@ -38,3 +38,28 @@ function showSlides(n) {
   slides[slideIndex - 1].style.display = "block";
   botones[slideIndex - 1].className += " active";
 }
+
+document.addEventListener("DOMContentLoaded", () => {
+    const gridGaleria = document.querySelector(".grid-galeria");
+    addEventoFavorito(gridGaleria);
+});
+
+function addEventoFavorito(container) {
+    container.addEventListener("click", (event) => {
+        const clickedElement = event.target;
+
+        if (clickedElement.classList.contains("no-favorito") || clickedElement.classList.contains("favorito")) {
+            cambiarFavorito(clickedElement);
+        }
+    });
+}
+
+function cambiarFavorito(elemento) {
+    const elementoGrid = elemento.closest(".elemento-grid");
+
+    const favorito = elementoGrid.querySelector(".favorito");
+    const noFavorito = elementoGrid.querySelector(".no-favorito");
+
+    favorito.classList.toggle("escondido");
+    noFavorito.classList.toggle("escondido");
+}
