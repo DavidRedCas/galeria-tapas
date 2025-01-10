@@ -203,7 +203,7 @@ h2{
 }
 
 .elemento-grid p{
-    margin: 12px;
+    margin: 15px;
     font-size: 1.1rem;
 }
 
@@ -293,35 +293,63 @@ strong{
     box-shadow: 6px 8px 0px rgb(59, 59, 59);
 }
 
-.imagenes-galeria{
+.botones-galeria{
     position: relative;
+    padding-bottom: 47px;
+    border-bottom: 3px solid gray;
 }
 
-.elemento-grid .imagen-favorito{
+.elemento-grid .boton-galeria{
     border: 0;
-    height: 30px;
-    width: 30px;
+    height: 32px;
+    width: 32px;
     position: absolute;
-    top: 5px;
-    right: 5px;
     transition: 0.2s ease;
 }
 
 .no-favorito{
-    filter: invert(100%) sepia(55%) saturate(206%) hue-rotate(176deg) brightness(112%) contrast(84%);
+    top: 5px;
+    left: 20px;
 }
 
 .favorito{
-    filter: invert(72%) sepia(51%) saturate(615%) hue-rotate(1deg) brightness(106%) contrast(101%);
+    top: 5px;
+    left: 20px;
+    filter: invert(72%) sepia(51%) saturate(615%) hue-rotate(1deg) brightness(100%) contrast(101%);
+}
+
+.editar{
+    top: 5px;
+    right: 60px;
+}
+
+.eliminar{
+    top: 5px;
+    right: 20px;
 }
 
 .escondido{
     display: none;
 }
 
-.imagen-favorito:hover{
+.boton-galeria:hover{
     cursor: pointer;
-    opacity: 60%;
+}
+
+.no-favorito:hover{
+    filter: invert(72%) sepia(51%) saturate(615%) hue-rotate(1deg) brightness(95%) contrast(101%);
+}
+
+.favorito:hover{
+    filter: invert(72%) sepia(51%) saturate(615%) hue-rotate(1deg) brightness(90%) contrast(101%);
+}
+
+.editar:hover{
+    filter: invert(25%) sepia(99%) saturate(1530%) hue-rotate(97deg) brightness(105%) contrast(104%);
+}
+
+.eliminar:hover{
+    filter: invert(9%) sepia(95%) saturate(6542%) hue-rotate(2deg) brightness(90%) contrast(116%);
 }
   
 footer{
