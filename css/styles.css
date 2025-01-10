@@ -309,7 +309,7 @@ strong{
 
 .no-favorito{
     top: 5px;
-    left: 15px;
+    left: 20px;
 }
 
 .favorito{
@@ -350,6 +350,12 @@ strong{
 
 .eliminar:hover{
     filter: invert(9%) sepia(95%) saturate(6542%) hue-rotate(2deg) brightness(90%) contrast(116%);
+}
+
+.numFavoritos{
+    position: absolute;
+    font-weight: bold;
+    left: 42px;
 }
 
 .nueva{
