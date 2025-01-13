@@ -216,6 +216,13 @@ select{
     max-width: 400px;
 }
 
+.nombreBar{
+    position: relative;
+    font-weight: bold;
+    font-style: italic;
+    text-align: center;
+}
+
 .elemento-grid p{
     margin: 15px;
     font-size: 1.1rem;
