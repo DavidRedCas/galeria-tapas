@@ -336,12 +336,12 @@ strong{
     filter: invert(72%) sepia(51%) saturate(615%) hue-rotate(1deg) brightness(100%) contrast(101%);
 }
 
-.editar{
+.editar, .guardar{
     top: 5px;
     right: 60px;
 }
 
-.eliminar{
+.eliminar, .cancelar{
     top: 5px;
     right: 20px;
 }
@@ -362,11 +362,11 @@ strong{
     filter: invert(72%) sepia(51%) saturate(615%) hue-rotate(1deg) brightness(90%) contrast(101%);
 }
 
-.editar:hover{
+.editar:hover, .guardar:hover{
     filter: invert(25%) sepia(99%) saturate(1530%) hue-rotate(97deg) brightness(105%) contrast(104%);
 }
 
-.eliminar:hover{
+.eliminar:hover, .cancelar:hover{
     filter: invert(9%) sepia(95%) saturate(6542%) hue-rotate(2deg) brightness(90%) contrast(116%);
 }
 
