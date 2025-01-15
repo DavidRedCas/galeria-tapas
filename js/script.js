@@ -40,6 +40,49 @@ function showSlides(n) {
     botones[slideid - 1].className += " active";
 }
 
+document.getElementById("nuevaTapa").addEventListener("click", () => {
+    window.location.href = "nueva-tapa.html";
+});
+
+document.getElementById("mostrar-todos").addEventListener("click", (event) => {
+    event.preventDefault();
+    renderizarGaleria(elementos);
+});
+
+document.getElementById("mostrar-favoritos").addEventListener("click", (event) => {
+    event.preventDefault();
+    const favoritos = elementos.filter(elemento => elemento.favorito);
+    renderizarGaleria(favoritos);
+});
+
+document.querySelector(".grid-galeria").addEventListener("click", (event) => {
+    const clickedElement = event.target;
+
+    if (clickedElement.classList.contains("no-favorito") || clickedElement.classList.contains("favorito")) {
+        cambiarFavorito(clickedElement);
+    }else if(clickedElement.classList.contains("editar")){
+        editarTapa(clickedElement);
+    }else if(clickedElement.classList.contains("eliminar")){
+        eliminarTapa(clickedElement);
+    }else if(clickedElement.classList.contains("guardar")){
+        guardarCambiosTapa(clickedElement);
+    }else if(clickedElement.classList.contains("cancelar")){
+        cancelarCambiosTapa(clickedElement);
+    }
+});
+
+function agregarTapa(nuevaTapa) {
+    const ultimoElemento = elementos[elementos.length - 1];
+    const nuevoId = ultimoElemento ? ultimoElemento.id + 1 : 0;
+
+    nuevaTapa.id = nuevoId;
+    if(nuevaTapa.imagen === ""){
+        nuevaTapa.imagen = "default.jpg"
+    }
+
+    elementos.push(nuevaTapa);
+}
+
 document.addEventListener("DOMContentLoaded", () => {
     fetch("data/elementos.json")
     .then(response => {
@@ -49,40 +92,15 @@ document.addEventListener("DOMContentLoaded", () => {
         return response.json();
     })
     .then(data => {
-        
         elementos = data.elementos;
+        const nuevaTapa = JSON.parse(sessionStorage.getItem("nuevaTapa"));
+
+        if (nuevaTapa) {
+            agregarTapa(nuevaTapa);
+
+            sessionStorage.removeItem("nuevaTapa");
+        }
         renderizarGaleria(elementos);
-
-        const mostrarTodosBtn = document.getElementById("mostrar-todos");
-        const mostrarFavoritosBtn = document.getElementById("mostrar-favoritos");
-        const gridGaleria = document.querySelector(".grid-galeria");
-
-        mostrarTodosBtn.addEventListener("click", (event) => {
-            event.preventDefault();
-            renderizarGaleria(elementos);
-        });
-
-        mostrarFavoritosBtn.addEventListener("click", (event) => {
-            event.preventDefault();
-            const favoritos = elementos.filter(elemento => elemento.favorito);
-            renderizarGaleria(favoritos);
-        });
-
-        gridGaleria.addEventListener("click", (event) => {
-            const clickedElement = event.target;
-    
-            if (clickedElement.classList.contains("no-favorito") || clickedElement.classList.contains("favorito")) {
-                cambiarFavorito(clickedElement);
-            }else if(clickedElement.classList.contains("editar")){
-                editarTapa(clickedElement);
-            }else if(clickedElement.classList.contains("eliminar")){
-                eliminarTapa(clickedElement);
-            }else if(clickedElement.classList.contains("guardar")){
-                guardarCambiosTapa(clickedElement);
-            }else if(clickedElement.classList.contains("cancelar")){
-                cancelarCambiosTapa(clickedElement);
-            }
-        });
     })
     .catch(error => {
         console.error("Hubo un problema con la carga del archivo JSON:", error);
@@ -288,7 +306,6 @@ function guardarCambiosTapa(elemento) {
     const nuevaDescripcion = textareaDescripcion.value;
     const nuevoBar = inputBar.value;
 
-    
     const index = elementos.findIndex(e => e.id == id);
     if (index !== -1) {
         elementos[index].titulo = nuevoTitulo;
@@ -327,7 +344,7 @@ function cancelarCambiosTapa(elemento) {
     const inputTitulo = document.getElementById(`titulo-${id}`);
     const textareaDescripcion = document.getElementById(`descripcion-${id}`);
     const inputBar = document.getElementById(`bar-${id}`);
-    
+
     let titulo = "";
     let descripcion = "";
     let bar = "";
