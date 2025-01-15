@@ -224,7 +224,10 @@ function cambiarFavorito(elemento) {
     favorito.classList.toggle("escondido");
     noFavorito.classList.toggle("escondido");
 
-    elementos[id].favorito = !elementos[id].favorito;
+    const index = elementos.findIndex(e => e.id == id);
+    if (index !== -1) {
+        elementos[index].favorito = !elementos[index].favorito;
+    }
 }
 
 function eliminarTapa(elemento){
@@ -286,9 +289,12 @@ function guardarCambiosTapa(elemento) {
     const nuevoBar = inputBar.value;
 
     
-    elementos[id].titulo = nuevoTitulo;
-    elementos[id].descripcion = nuevaDescripcion;
-    elementos[id].bar = nuevoBar;
+    const index = elementos.findIndex(e => e.id == id);
+    if (index !== -1) {
+        elementos[index].titulo = nuevoTitulo;
+        elementos[index].descripcion = nuevaDescripcion;
+        elementos[index].bar = nuevoBar;
+    }
 
     const parafoBar = document.createElement("u");
     parafoBar.textContent = nuevoBar;
@@ -322,14 +328,24 @@ function cancelarCambiosTapa(elemento) {
     const textareaDescripcion = document.getElementById(`descripcion-${id}`);
     const inputBar = document.getElementById(`bar-${id}`);
     
+    let titulo = "";
+    let descripcion = "";
+    let bar = "";
+    const index = elementos.findIndex(e => e.id == id);
+    if (index !== -1) {
+        titulo = elementos[index].titulo;
+        descripcion = elementos[index].descripcion;
+        bar = elementos[index].bar;
+    }
+    
     const parafoBar = document.createElement("u");
-    parafoBar.textContent = elementos[id].bar;
+    parafoBar.textContent = bar;
 
     const tituloElemento = document.createElement("strong");
-    tituloElemento.textContent = elementos[id].titulo;
+    tituloElemento.textContent = titulo;
 
     const descripcionElemento = document.createElement("span");
-    descripcionElemento.textContent = elementos[id].descripcion;
+    descripcionElemento.textContent = descripcion;
 
     inputTitulo.replaceWith(tituloElemento);
     textareaDescripcion.replaceWith(descripcionElemento);
