@@ -1,65 +1,347 @@
-let slideIndex = 1;
-showSlides(slideIndex);
+let slideid = 1;
+showSlides(slideid);
 
 const tiempo = 3000
 let intervalo = setInterval(autoSlide, tiempo);
+let elementos = [];
 
 function autoSlide() {
-  plusSlides(1);
+    plusSlides(1);
 }
 
 function resetAutoSlide() {
-  clearInterval(intervalo);
-  intervalo = setInterval(autoSlide, tiempo);
+    clearInterval(intervalo);
+    intervalo = setInterval(autoSlide, tiempo);
 }
 
 function plusSlides(n) {
-  resetAutoSlide();
-  showSlides(slideIndex += n);
+    resetAutoSlide();
+    showSlides(slideid += n);
 }
 
 function currentSlide(n) {
-  resetAutoSlide();
-  showSlides(slideIndex = n);
+    resetAutoSlide();
+    showSlides(slideid = n);
 }
 
 function showSlides(n) {
-  let i;
-  let slides = document.getElementsByClassName("mySlides");
-  let botones = document.getElementsByClassName("boton");
-  if (n > slides.length) { slideIndex = 1; }
-  if (n < 1) { slideIndex = slides.length; }
-  for (i = 0; i < slides.length; i++) {
-    slides[i].style.display = "none";
-  }
-  for (i = 0; i < botones.length; i++) {
-    botones[i].className = botones[i].className.replace(" active", "");
-  }
-  slides[slideIndex - 1].style.display = "block";
-  botones[slideIndex - 1].className += " active";
+    let i;
+    let slides = document.getElementsByClassName("mySlides");
+    let botones = document.getElementsByClassName("boton");
+    if (n > slides.length) { slideid = 1; }
+    if (n < 1) { slideid = slides.length; }
+    for (i = 0; i < slides.length; i++) {
+        slides[i].style.display = "none";
+    }
+    for (i = 0; i < botones.length; i++) {
+        botones[i].className = botones[i].className.replace(" active", "");
+    }
+    slides[slideid - 1].style.display = "block";
+    botones[slideid - 1].className += " active";
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-    const gridGaleria = document.querySelector(".grid-galeria");
-    addEventoFavorito(gridGaleria);
+    fetch("data/elementos.json")
+    .then(response => {
+        if (!response.ok) {
+            throw new Error("Error al cargar el archivo JSON");
+        }
+        return response.json();
+    })
+    .then(data => {
+        
+        elementos = data.elementos;
+        renderizarGaleria(elementos);
+
+        const mostrarTodosBtn = document.getElementById("mostrar-todos");
+        const mostrarFavoritosBtn = document.getElementById("mostrar-favoritos");
+        const gridGaleria = document.querySelector(".grid-galeria");
+
+        mostrarTodosBtn.addEventListener("click", (event) => {
+            event.preventDefault();
+            renderizarGaleria(elementos);
+        });
+
+        mostrarFavoritosBtn.addEventListener("click", (event) => {
+            event.preventDefault();
+            const favoritos = elementos.filter(elemento => elemento.favorito);
+            renderizarGaleria(favoritos);
+        });
+
+        gridGaleria.addEventListener("click", (event) => {
+            const clickedElement = event.target;
+    
+            if (clickedElement.classList.contains("no-favorito") || clickedElement.classList.contains("favorito")) {
+                cambiarFavorito(clickedElement);
+            }else if(clickedElement.classList.contains("editar")){
+                editarTapa(clickedElement);
+            }else if(clickedElement.classList.contains("eliminar")){
+                eliminarTapa(clickedElement);
+            }else if(clickedElement.classList.contains("guardar")){
+                guardarCambiosTapa(clickedElement);
+            }else if(clickedElement.classList.contains("cancelar")){
+                cancelarCambiosTapa(clickedElement);
+            }
+        });
+    })
+    .catch(error => {
+        console.error("Hubo un problema con la carga del archivo JSON:", error);
+    });
 });
 
-function addEventoFavorito(container) {
-    container.addEventListener("click", (event) => {
-        const clickedElement = event.target;
+function renderizarGaleria(elementos) {
+    const gridGaleria = document.querySelector(".grid-galeria");
+    while (gridGaleria.firstChild) {
+        gridGaleria.removeChild(gridGaleria.firstChild);
+    }
 
-        if (clickedElement.classList.contains("no-favorito") || clickedElement.classList.contains("favorito")) {
-            cambiarFavorito(clickedElement);
-        }
+    elementos.forEach((elemento) => {
+        const elementoGrid = crearElementoGrid(elemento);
+        gridGaleria.appendChild(elementoGrid);
     });
+}
+
+function crearElementoGrid(elemento) {
+    const elementoGrid = document.createElement("div");
+    elementoGrid.className = "elemento-grid";
+
+    const picture = document.createElement("picture");
+
+    const imagen = elemento.imagen;
+
+    const sourceSmall = document.createElement("source");
+    sourceSmall.srcset = "img/480/"+imagen;
+    sourceSmall.media = "(max-width: 600px)";
+    picture.appendChild(sourceSmall);
+
+    const sourceMedium = document.createElement("source");
+    sourceMedium.srcset = "img/768/"+imagen;
+    sourceMedium.media = "(max-width: 1024px)";
+    picture.appendChild(sourceMedium);
+
+    const sourceLarge = document.createElement("source");
+    sourceLarge.srcset = "img/1080/"+imagen;
+    sourceLarge.media = "(min-width: 1025px)";
+    picture.appendChild(sourceLarge);
+
+    const img = document.createElement("img");
+    img.src = "img/1080/"+imagen;
+    img.alt = elemento.alt;
+    picture.appendChild(img);
+    
+    const favoritoImg = document.createElement("img");
+    favoritoImg.className = "boton-galeria favorito";
+    favoritoImg.src = "img/vect/star-fill.svg";
+    favoritoImg.alt = "Marcado como favorito";
+
+    const noFavoritoImg = document.createElement("img");
+    noFavoritoImg.className = "boton-galeria no-favorito";
+    noFavoritoImg.src = "img/vect/star.svg";
+    noFavoritoImg.alt = "Marcar como favorito";
+
+    if (elemento.favorito) {
+        favoritoImg.classList.remove("escondido");
+        noFavoritoImg.classList.add("escondido");
+    } else {
+        favoritoImg.classList.add("escondido");
+        noFavoritoImg.classList.remove("escondido");
+    }
+
+    const numFavoritos = document.createElement("p");
+    numFavoritos.textContent = elemento.numFavoritos;
+    numFavoritos.className = "numFavoritos";
+
+    const editarImg = document.createElement("img");
+    editarImg.className = "boton-galeria editar";
+    editarImg.src = "img/vect/pencil-square.svg";
+    editarImg.alt = "Editar";
+
+    const guardarImg = document.createElement("img");
+    guardarImg.className = "boton-galeria guardar escondido";
+    guardarImg.src = "img/vect/guardar.svg";
+    guardarImg.alt = "Guardar";
+
+    const eliminarImg = document.createElement("img");
+    eliminarImg.className = "boton-galeria eliminar";
+    eliminarImg.src = "img/vect/trash.svg";
+    eliminarImg.alt = "Eliminar";
+
+    const cancelarImg = document.createElement("img");
+    cancelarImg.className = "boton-galeria cancelar escondido";
+    cancelarImg.src = "img/vect/cancelar.svg";
+    cancelarImg.alt = "Cancelar";
+
+    const botonesGaleria = document.createElement("div");
+    botonesGaleria.className = "botones-galeria";
+    botonesGaleria.appendChild(favoritoImg);
+    botonesGaleria.appendChild(noFavoritoImg);
+    botonesGaleria.appendChild(numFavoritos);
+    botonesGaleria.appendChild(editarImg);
+    botonesGaleria.appendChild(guardarImg);
+    botonesGaleria.appendChild(eliminarImg);
+    botonesGaleria.appendChild(cancelarImg);
+
+    const texto = document.createElement("div");
+    texto.className = "texto-tapa";
+
+    const parafoBar = document.createElement("p");
+    parafoBar.className = "nombreBar";
+    const uElementoBar = document.createElement("u");
+    uElementoBar.textContent = elemento.bar;
+    parafoBar.appendChild(uElementoBar);
+
+    const parafoTapa = document.createElement("p");
+    const strong = document.createElement("strong");
+    strong.textContent = elemento.titulo;
+    parafoTapa.appendChild(strong);
+
+    const descripcionTexto = document.createElement("br");
+    parafoTapa.appendChild(descripcionTexto);
+
+    const descripcionParrafo = document.createElement("span");
+    descripcionParrafo.textContent = elemento.descripcion;
+    parafoTapa.appendChild(descripcionParrafo);
+
+    texto.appendChild(parafoBar);
+    texto.appendChild(parafoTapa);
+
+    elementoGrid.appendChild(picture);
+    elementoGrid.appendChild(botonesGaleria);
+    elementoGrid.appendChild(texto);
+
+    elementoGrid.setAttribute("data-id", elemento.id);
+
+    return elementoGrid;
 }
 
 function cambiarFavorito(elemento) {
     const elementoGrid = elemento.closest(".elemento-grid");
+    const id = elementoGrid.getAttribute("data-id");
 
     const favorito = elementoGrid.querySelector(".favorito");
     const noFavorito = elementoGrid.querySelector(".no-favorito");
 
     favorito.classList.toggle("escondido");
     noFavorito.classList.toggle("escondido");
+
+    elementos[id].favorito = !elementos[id].favorito;
+}
+
+function eliminarTapa(elemento){
+    const elementoGrid = elemento.closest(".elemento-grid");
+    const id = parseInt(elementoGrid.getAttribute("data-id"));
+
+    elementos = elementos.filter(elemento => elemento.id !== id);
+
+    renderizarGaleria(elementos);
+}
+
+function editarTapa(elemento) {
+    const elementoGrid = elemento.closest(".elemento-grid");
+    const id = parseInt(elementoGrid.getAttribute("data-id"));
+
+    const tituloElemento = elementoGrid.querySelector(".texto-tapa strong");
+    const descripcionElemento = elementoGrid.querySelector(".texto-tapa span");
+    const parafoBar = elementoGrid.querySelector(".texto-tapa .nombreBar u");
+
+    const inputTitulo = document.createElement("input");
+    inputTitulo.type = "text";
+    inputTitulo.value = tituloElemento.textContent;
+    inputTitulo.id = `titulo-${id}`;
+
+    const textareaDescripcion = document.createElement("textarea");
+    textareaDescripcion.value = descripcionElemento.textContent;
+    textareaDescripcion.id = `descripcion-${id}`;
+
+    const inputBar = document.createElement("input");
+    inputBar.type = "text";
+    inputBar.value = parafoBar.textContent;
+    inputBar.id = `bar-${id}`;
+
+    tituloElemento.replaceWith(inputTitulo);
+    descripcionElemento.replaceWith(textareaDescripcion);
+    parafoBar.parentElement.replaceChild(inputBar, parafoBar);
+
+    const editar = elementoGrid.querySelector(".editar");
+    const guardar = elementoGrid.querySelector(".guardar");
+    const eliminar = elementoGrid.querySelector(".eliminar");
+    const cancelar = elementoGrid.querySelector(".cancelar");
+
+    editar.classList.add("escondido");
+    guardar.classList.remove("escondido");
+    eliminar.classList.add("escondido");
+    cancelar.classList.remove("escondido");
+}
+
+function guardarCambiosTapa(elemento) {
+    const elementoGrid = elemento.closest(".elemento-grid");
+    const id = parseInt(elementoGrid.getAttribute("data-id"));
+
+    const inputTitulo = document.getElementById(`titulo-${id}`);
+    const textareaDescripcion = document.getElementById(`descripcion-${id}`);
+    const inputBar = document.getElementById(`bar-${id}`);
+
+    const nuevoTitulo = inputTitulo.value;
+    const nuevaDescripcion = textareaDescripcion.value;
+    const nuevoBar = inputBar.value;
+
+    
+    elementos[id].titulo = nuevoTitulo;
+    elementos[id].descripcion = nuevaDescripcion;
+    elementos[id].bar = nuevoBar;
+
+    const parafoBar = document.createElement("u");
+    parafoBar.textContent = nuevoBar;
+
+    const tituloElemento = document.createElement("strong");
+    tituloElemento.textContent = nuevoTitulo;
+
+    const descripcionElemento = document.createElement("span");
+    descripcionElemento.textContent = nuevaDescripcion;
+
+    inputTitulo.replaceWith(tituloElemento);
+    textareaDescripcion.replaceWith(descripcionElemento);
+    inputBar.replaceWith(parafoBar);
+
+    const editar = elementoGrid.querySelector(".editar");
+    const guardar = elementoGrid.querySelector(".guardar");
+    const eliminar = elementoGrid.querySelector(".eliminar");
+    const cancelar = elementoGrid.querySelector(".cancelar");
+
+    editar.classList.remove("escondido");
+    guardar.classList.add("escondido");
+    eliminar.classList.remove("escondido");
+    cancelar.classList.add("escondido");
+}
+
+function cancelarCambiosTapa(elemento) {
+    const elementoGrid = elemento.closest(".elemento-grid");
+    const id = parseInt(elementoGrid.getAttribute("data-id"));
+
+    const inputTitulo = document.getElementById(`titulo-${id}`);
+    const textareaDescripcion = document.getElementById(`descripcion-${id}`);
+    const inputBar = document.getElementById(`bar-${id}`);
+    
+    const parafoBar = document.createElement("u");
+    parafoBar.textContent = elementos[id].bar;
+
+    const tituloElemento = document.createElement("strong");
+    tituloElemento.textContent = elementos[id].titulo;
+
+    const descripcionElemento = document.createElement("span");
+    descripcionElemento.textContent = elementos[id].descripcion;
+
+    inputTitulo.replaceWith(tituloElemento);
+    textareaDescripcion.replaceWith(descripcionElemento);
+    inputBar.replaceWith(parafoBar);
+
+    const editar = elementoGrid.querySelector(".editar");
+    const guardar = elementoGrid.querySelector(".guardar");
+    const eliminar = elementoGrid.querySelector(".eliminar");
+    const cancelar = elementoGrid.querySelector(".cancelar");
+
+    editar.classList.remove("escondido");
+    guardar.classList.add("escondido");
+    eliminar.classList.remove("escondido");
+    cancelar.classList.add("escondido");
 }
