@@ -15,6 +15,7 @@ Para el logo y los iconos del footer se han usado imágenes vectoriales. El logo
 
 La estética general es simple, en escala de grises y fondo oscuro, con los elementos de la galería en color contrastante.
 
+-----------------------------------------------------------------------------------
 
 Galería interactiva con DOM:
 
