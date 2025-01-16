@@ -1,0 +1,40 @@
+.formulario{
+    color: white;
+    #descripcion{
+        max-width: 600px;
+        min-height: 100px;
+    }
+    input[type=text]{
+        width: 600px;
+    }
+    button{
+        margin-top: 1em;
+    }
+}
+
+footer{
+    position: fixed;
+    bottom: 0;
+}
+
+@media (max-width: 1100px) {
+    .formulario{
+        input[type=text]{
+            width: 400px;
+        }
+        #descripcion{
+            width: 400px;
+        }
+    }
+}
+
+@media (max-width: 500px) {
+    .formulario{
+        input[type=text]{
+            width: 300px;
+        }
+        #descripcion{
+            width: 300px;
+        }
+    }
+}

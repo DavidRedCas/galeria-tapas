@@ -4,25 +4,48 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Añadir Nueva Tapa</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/nuevaTapa.css">
 </head>
 <body>
-    <h1>Añadir Nueva Tapa</h1>
-    <form id="form-tapa">
-        <label for="titulo">Título:</label>
-        <input type="text" id="titulo" required><br>
-        
-        <label for="descripcion">Descripción:</label>
-        <textarea id="descripcion" required></textarea><br>
-        
-        <label for="bar">Bar:</label>
-        <input type="text" id="bar" required><br>
-        
-        <label for="imagen">Imagen (nombre de archivo):</label>
-        <input type="text" id="imagen"><br>
-
-        <button type="submit">Guardar Tapa</button>
-    </form>
-
+    <header>
+        <div class="contenedor-logo">
+            <img src="img/vect/logo.svg" alt="Logo">
+            <h1>Concurso Tapas</h1>
+        </div>
+        <div class="contenedor-menu">
+            <input type="text" placeholder="Buscar...">
+            <button class="boton-buscar">Buscar</button>
+            <button class="boton-login">Login</button>
+        </div>
+    </header>
+    <div class="formulario">
+        <h1 id="tituloNueva">Añadir Nueva Tapa</h1>
+        <form id="form-tapa">
+            <label for="titulo">Título:</label><br>
+            <input type="text" id="titulo" required><br>
+            
+            <label for="descripcion">Descripción:</label><br>
+            <textarea id="descripcion" required></textarea><br>
+            
+            <label for="bar">Bar:</label><br>
+            <input type="text" id="bar" required><br>
+            
+            <label for="imagen">Imagen (nombre de archivo):</label><br>
+            <input type="text" id="imagen"><br>
+    
+            <button type="submit">Guardar Tapa</button>
+        </form>
+    </div>
+    <footer>
+        <p>&copy; 2024 Concurso de Tapas.</p>
+        <div class="contenedor-redes">
+            <img src="img/vect/icono-facebook.svg" alt="Icono Facebook">
+            <img src="img/vect/icono-instagram.svg" alt="Icono Instagram">
+            <img src="img/vect/icono-linkedin.svg" alt="Icono Linkedin">
+            <img src="img/vect/icono-twitter.svg" alt="Icono Twitter">
+        </div>
+    </footer>
     <script src="js/nueva-tapa.js"></script>
 </body>
 </html>
