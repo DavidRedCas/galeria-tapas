@@ -28,3 +28,13 @@ Los botones de cada tapa se muestran y se esconden añadiendo o eliminando una c
 Se ha añadido una opción para añadir nuevas tapas después de la galería. Al pulsar el botón para añadir una nueva tapa, se redirige a una nueva pestaña en la que introducir la información de la tapa, con un campo para el título de la tapa, descripción y nombre del bar. También hay un campo opcional para el nombre de archivo de imagen (ejemplo: tapa13.webp). Si no se introduce una imagen, se mostrará una por defecto.
 
 La galería conserva la estética original, añadiendo una sección bajo la foto de cada tapa con los distintos botones, dos botones de filtrado antes de la galería y una sección al final de la galería para añadir una nueva tapa, siguiendo lo anteriormente hablado. Se han usado siete imagenes vectoriales nuevas para estos botones, los cuales tienen un efecto de cambio de color según su función al pasar el puntero sobre ellos.
+
+-----------------------------------------------------------------------------------
+
+Estudio Usabilidad:
+
+-----------------------------------------------------------------------------------
+
+Diseño Adaptativo:
+En las resoluciones más grandes (>1100px), la galería se dividirá en 3 columnas, en resoluciones de 1099px a 500px se dividirá en 2 y en resoluciones menores en 1. La resolución y tamaño de las imágenes del carrusel también se adapta a esas 3 resoluciones.
+Los textos usan unidades "rem", por lo que tienen un tamaño responsivo.
