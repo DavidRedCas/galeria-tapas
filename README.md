@@ -32,9 +32,17 @@ La galería conserva la estética original, añadiendo una sección bajo la foto
 -----------------------------------------------------------------------------------
 
 Estudio Usabilidad:
+Scroll infinito en la galería. Solución: paginación.
+La opción para añadir tapa está muy abajo. Solución: poner esa opción en una barra de navegación.
+No existe confirmación al eliminar. Solución: añadir modal de confirmación.
+El botón de cancelar cambios al editar la tapa no era claro al tener forma de flecha. Solución: ahora se usa el mismo icono pero en forma de cuadrado.
+No hay opción de cancelar al añadir nueva tapa. Solución: añadir botón secundario para cancelar.
+El nombre de los bares se edita mediante un campo de texto, pero más adelante (al implementar la API) se sustituirá por un desplegable y tendrá una opción para editar el bar.
 
 -----------------------------------------------------------------------------------
 
 Diseño Adaptativo:
 En las resoluciones más grandes (>1100px), la galería se dividirá en 3 columnas, en resoluciones de 1099px a 500px se dividirá en 2 y en resoluciones menores en 1. La resolución y tamaño de las imágenes del carrusel también se adapta a esas 3 resoluciones.
 Los textos usan unidades "rem", por lo que tienen un tamaño responsivo.
+
+arreglar carrusel😎 en resoluciones limite😈.
