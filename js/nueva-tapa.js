@@ -15,3 +15,7 @@ document.getElementById("form-tapa").addEventListener("submit", (event) => {
 
     window.location.href = "index.html";
 });
+
+document.getElementById("cancelar").addEventListener("click", () => {
+    window.location.href = "index.html";
+});
