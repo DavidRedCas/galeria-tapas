@@ -1,47 +1,7 @@
-let slideid = 1;
-showSlides(slideid);
-
-const tiempo = 3000
-let intervalo = setInterval(autoSlide, tiempo);
 let elementos = [];
 
 let paginaActual = 1; // Página actual
 const elementosPorPagina = 6; // Elementos por página
-
-function autoSlide() {
-    plusSlides(1);
-}
-
-function resetAutoSlide() {
-    clearInterval(intervalo);
-    intervalo = setInterval(autoSlide, tiempo);
-}
-
-function plusSlides(n) {
-    resetAutoSlide();
-    showSlides(slideid += n);
-}
-
-function currentSlide(n) {
-    resetAutoSlide();
-    showSlides(slideid = n);
-}
-
-function showSlides(n) {
-    let i;
-    let slides = document.getElementsByClassName("mySlides");
-    let botones = document.getElementsByClassName("boton");
-    if (n > slides.length) { slideid = 1; }
-    if (n < 1) { slideid = slides.length; }
-    for (i = 0; i < slides.length; i++) {
-        slides[i].style.display = "none";
-    }
-    for (i = 0; i < botones.length; i++) {
-        botones[i].className = botones[i].className.replace(" active", "");
-    }
-    slides[slideid - 1].style.display = "block";
-    botones[slideid - 1].className += " active";
-}
 
 document.getElementById("nuevaTapa").addEventListener("click", () => {
     window.location.href = "nueva-tapa.html";

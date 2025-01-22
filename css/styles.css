@@ -86,7 +86,7 @@ button:active{
     transform: scale(1);
 }
 
-.carrusel{
+.carousel{
     max-width: 1200px;
     max-height: 750px;
     position: relative;
@@ -96,7 +96,7 @@ button:active{
     border-radius: 10px;
 }
 
-.carrusel img{
+.carousel img{
     width: 1200px;
     height: 750px;
     border-radius: 10px;
@@ -125,14 +125,15 @@ button:active{
     transition: 0.15s ease;
     user-select: none;
     border-radius: 50%;
+    z-index: 2;
 }
 
 .prev{
-    left: 0;
+    left: 10px;
 }
 
 .next {
-    right: 0;
+    right: 20px;
 }
 
 .prev:hover, .next:hover {
@@ -154,7 +155,7 @@ button:active{
     text-align: left;
   }
 
-.botones-carrusel{
+.botones-carousel{
     cursor: default;
     position: relative;
     top: -40px;
@@ -388,12 +389,12 @@ footer p{
         margin: auto;
         justify-content: center;
     }
-    .carrusel{
+    .carousel{
         max-width: 800px;
         max-height: 499px;
     }
     
-    .carrusel img{
+    .carousel img{
         width: 800px;
         height: 499px;
     }
@@ -423,12 +424,12 @@ footer p{
         width: 300px;
         height: 187px;
     }
-    .carrusel{
+    .carousel{
         max-width: 300px;
         max-height: 187px;
     }
     
-    .carrusel img{
+    .carousel img{
         width: 300px;
         height: 187px;
     }

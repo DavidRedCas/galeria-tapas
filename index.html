@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" href="img/icono-logo.png" type="image/x-icon">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="css/styles.css">
     <title>Concurso Tapas</title>
 </head>
@@ -20,46 +21,35 @@
         </div>
     </header>
 
-    <div class="carrusel">
-        <div class="mySlides fade">
-            <picture>
-                <source srcset="img/480/tapa01.webp" media="(max-width: 600px)">
-                <source srcset="img/768/tapa01.webp" media="(max-width: 1024px)">
-                <source srcset="img/1080/tapa01.webp" media="(min-width: 1025px)">
-                <img src="img/1080/tapa01.webp" alt="">
-            </picture>
-            <div class="creditos">Croquetas</div>
+    <div id="carouselExampleIndicators" class="carousel slide carousel-fade" data-bs-ride="carousel" data-bs-interval="3000">
+        <div class="carousel-indicators">
+            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
+            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
         </div>
-        
-        <div class="mySlides fade">
-            <picture>
-                <source srcset="img/480/tapa02.webp" media="(max-width: 600px)">
-                <source srcset="img/768/tapa02.webp" media="(max-width: 1024px)">
-                <source srcset="img/1080/tapa02.webp" media="(min-width: 1025px)">
-                <img src="img/1080/tapa02.webp" alt="">
-            </picture>
-            <div class="creditos">Aros de calamar</div>
+        <div class="carousel-inner">
+            <div class="carousel-item fade active">
+            <img src="img/1080/tapa01.webp" class="d-block w-100" alt="Croquetas">
+                <div class="carousel-caption d-none d-md-block">
+                    <h5>Croquetas</h5>
+                </div>
+            </div>
+            <div class="carousel-item fade">
+            <img src="img/1080/tapa02.webp" class="d-block w-100" alt="Aros de calamar">
+                <div class="carousel-caption d-none d-md-block">
+                    <h5>Aros de calamar</h5>
+                </div>
+            </div>
+            <div class="carousel-item fade">
+            <img src="img/1080/tapa03.webp" class="d-block w-100" alt="Empanadillas de atún">
+                <div class="carousel-caption d-none d-md-block">
+                    <h5>Empanadillas de atún</h5>
+                </div>
+            </div>
         </div>
-        
-        <div class="mySlides fade">
-            <picture>
-                <source srcset="img/480/tapa03.webp" media="(max-width: 600px)">
-                <source srcset="img/768/tapa03.webp" media="(max-width: 1024px)">
-                <source srcset="img/1080/tapa03.webp" media="(min-width: 1025px)">
-                <img src="img/1080/tapa03.webp" alt="">
-            </picture>
-            <div class="creditos">Empanadillas de atún</div>
-        </div>
-        
-            <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
-            <a class="next" onclick="plusSlides(1)">&#10095;</a>
-        </div>
-    
-    <div class="botones-carrusel">
-      <span class="boton" onclick="currentSlide(1)"></span>
-      <span class="boton" onclick="currentSlide(2)"></span>
-      <span class="boton" onclick="currentSlide(3)"></span>
-    </div>
+        <a class="prev" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">&#10094;</a>
+        <a class="next" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">&#10095;</a>
+    </div>    
 
     <div class="galeria">
         <h2>Galería de tapas</h2>
@@ -88,6 +78,7 @@
             <img src="img/vect/icono-twitter.svg" alt="Icono Twitter">
         </div>
     </footer>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
     <script src="js/script.js"></script>
 </body>
 </html>
