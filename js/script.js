@@ -5,6 +5,9 @@ const tiempo = 3000
 let intervalo = setInterval(autoSlide, tiempo);
 let elementos = [];
 
+let paginaActual = 1; // Página actual
+const elementosPorPagina = 6; // Elementos por página
+
 function autoSlide() {
     plusSlides(1);
 }
@@ -100,12 +103,21 @@ document.addEventListener("DOMContentLoaded", () => {
 
             sessionStorage.removeItem("nuevaTapa");
         }
-        renderizarGaleria(elementos);
+        renderizarGaleriaConPaginacion(elementos);
     })
     .catch(error => {
         console.error("Hubo un problema con la carga del archivo JSON:", error);
     });
 });
+
+function renderizarGaleriaConPaginacion(elementos) {
+    const inicio = (paginaActual-1) * elementosPorPagina;
+    const fin = inicio + elementosPorPagina;
+    const elementosPagina = elementos.slice(inicio, fin);
+
+    renderizarGaleria(elementosPagina);
+    renderizarControlesPaginacion();
+}
 
 function renderizarGaleria(elementos) {
     const gridGaleria = document.querySelector(".grid-galeria");
@@ -230,6 +242,44 @@ function crearElementoGrid(elemento) {
     elementoGrid.setAttribute("data-id", elemento.id);
 
     return elementoGrid;
+}
+
+function renderizarControlesPaginacion() {
+    const contenedorPaginacion = document.querySelector(".paginacion");
+    contenedorPaginacion.innerHTML = ""; // Limpia los controles existentes
+
+    const totalPaginas = Math.ceil(elementos.length / elementosPorPagina);
+
+    if (paginaActual > 1) {
+        const botonAnterior = document.createElement("button");
+        botonAnterior.textContent = "Anterior";
+        botonAnterior.addEventListener("click", () => {
+            paginaActual--;
+            renderizarGaleriaConPaginacion(elementos);
+        });
+        contenedorPaginacion.appendChild(botonAnterior);
+    }
+
+    for (let i = 1; i <= totalPaginas; i++) {
+        const botonPagina = document.createElement("button");
+        botonPagina.textContent = i;
+        botonPagina.className = i === paginaActual ? "activo" : "";
+        botonPagina.addEventListener("click", () => {
+            paginaActual = i;
+            renderizarGaleriaConPaginacion(elementos);
+        });
+        contenedorPaginacion.appendChild(botonPagina);
+    }
+
+    if (paginaActual < totalPaginas) {
+        const botonSiguiente = document.createElement("button");
+        botonSiguiente.textContent = "Siguiente";
+        botonSiguiente.addEventListener("click", () => {
+            paginaActual++;
+            renderizarGaleriaConPaginacion(elementos);
+        });
+        contenedorPaginacion.appendChild(botonSiguiente);
+    }
 }
 
 function cambiarFavorito(elemento) {
