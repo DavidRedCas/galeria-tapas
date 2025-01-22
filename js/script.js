@@ -1,7 +1,7 @@
 let elementos = [];
 
-let paginaActual = 1; // Página actual
-const elementosPorPagina = 6; // Elementos por página
+let paginaActual = 1;
+const elementosPorPagina = 6;
 
 document.getElementById("nuevaTapa").addEventListener("click", () => {
     window.location.href = "nueva-tapa.html";
@@ -262,9 +262,23 @@ function eliminarTapa(elemento){
     const elementoGrid = elemento.closest(".elemento-grid");
     const id = parseInt(elementoGrid.getAttribute("data-id"));
 
-    elementos = elementos.filter(elemento => elemento.id !== id);
+    const nombreTapa = elementoGrid.querySelector(".texto-tapa strong").textContent;
 
-    renderizarGaleria(elementos);
+    document.getElementById("nombreTapaEliminar").textContent = nombreTapa;
+
+    const modal = new bootstrap.Modal(document.getElementById("modalConfirmarEliminacion"));
+    modal.show();
+
+    document.getElementById("confirmarEliminacion").addEventListener("click", () => {
+        if (id !== null) {
+            elementos = elementos.filter(elemento => elemento.id !== id);
+
+            renderizarGaleria(elementos);
+
+            const modal = bootstrap.Modal.getInstance(document.getElementById("modalConfirmarEliminacion"));
+            modal.hide();
+        }
+    });
 }
 
 function editarTapa(elemento) {
