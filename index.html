@@ -15,11 +15,15 @@
             <h1>Concurso Tapas</h1>
         </div>
         <div class="contenedor-menu">
-            <input type="text" placeholder="Buscar...">
-            <button class="boton-buscar">Buscar</button>
             <button class="boton-login">Login</button>
         </div>
     </header>
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <a class="navbar-brand" href="#galeria">Galería</a>
+        <a class="navbar-brand px-5" id="nuevaTapa" href="#galeria">Añadir nueva tapa</a>
+        <a class="navbar-brand" href="#">Gestión bares</a>
+        <a class="navbar-brand px-5" href="#">Perfil</a>
+    </nav>
 
     <div id="carouselExampleIndicators" class="carousel slide carousel-fade" data-bs-ride="carousel" data-bs-interval="3000">
         <div class="carousel-indicators">
@@ -28,19 +32,19 @@
             <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
         </div>
         <div class="carousel-inner">
-            <div class="carousel-item fade active">
+            <div class="carousel-item active">
             <img src="img/1080/tapa01.webp" class="d-block w-100" alt="Croquetas">
                 <div class="carousel-caption d-none d-md-block">
                     <h5>Croquetas</h5>
                 </div>
             </div>
-            <div class="carousel-item fade">
+            <div class="carousel-item ">
             <img src="img/1080/tapa02.webp" class="d-block w-100" alt="Aros de calamar">
                 <div class="carousel-caption d-none d-md-block">
                     <h5>Aros de calamar</h5>
                 </div>
             </div>
-            <div class="carousel-item fade">
+            <div class="carousel-item ">
             <img src="img/1080/tapa03.webp" class="d-block w-100" alt="Empanadillas de atún">
                 <div class="carousel-caption d-none d-md-block">
                     <h5>Empanadillas de atún</h5>
@@ -51,8 +55,12 @@
         <a class="next" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">&#10095;</a>
     </div>    
 
-    <div class="galeria">
+    <div class="galeria" id="galeria">
         <h2>Galería de tapas</h2>
+        <div class="buscar">
+            <input type="text" placeholder="Buscar...">
+            <button class="boton-buscar">Buscar</button>
+        </div>
         <div class="botones-filtrar">
             <button class="boton-filtrar" id="mostrar-todos">Mostrar Todos</button>
             <button class="boton-filtrar" id="mostrar-favoritos">Mostrar Favoritos</button>
@@ -62,12 +70,6 @@
         </div>
         <div class="paginacion"></div>
     </div>    
-
-    <div class="nueva">
-        <p>Añadir nueva tapa</p>
-        <img id="nuevaTapa" src="img/vect/plus-circle.svg" alt="Nueva tapa">
-        
-    </div>
 
     <footer>
         <p>&copy; 2024 Concurso de Tapas.</p>

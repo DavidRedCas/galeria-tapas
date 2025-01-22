@@ -10,7 +10,6 @@ body{
 header{
     width: 100%;
     background-color: #ebebeb;
-    border-bottom: 4px solid gray;
     display: flex;
     justify-content: space-between;
 }
@@ -36,6 +35,12 @@ h1{
 
 .contenedor-menu{
     margin-top: 25px;
+}
+
+.navbar{
+    padding-left: 100px;
+    background-color: #ebebeb;
+    border-bottom: 4px solid gray;
 }
 
 input[type=text]{
@@ -93,7 +98,10 @@ button:active{
     margin: 10px auto;
     margin-top: 40px;
     background-color: #c0c0c0;
-    border-radius: 10px;
+    border-radius: 15px;
+    div{
+        border-radius: 10px;
+    }
 }
 
 .carousel img{
@@ -101,16 +109,6 @@ button:active{
     height: 750px;
     border-radius: 10px;
 }
-
-.fade {
-    animation-name: fade;
-    animation-duration: 1.5s;
-  }
-  
-  @keyframes fade {
-    from {opacity: .4}
-    to {opacity: 1}
-  }
 
 .prev, .next {
     cursor: pointer;
@@ -233,7 +231,7 @@ strong{
 .elemento-grid img{
     z-index: 0;
     border-radius: 6px 6px 0px 0px;
-    width: 400px;
+    width: 390px;
     height: 250px;
     border-bottom: 4px solid gray;
 }
@@ -421,7 +419,7 @@ footer p{
         max-width: 300px;
     }
     .elemento-grid img{
-        width: 300px;
+        width: 292px;
         height: 187px;
     }
     .carousel{
