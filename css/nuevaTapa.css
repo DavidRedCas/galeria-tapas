@@ -1,14 +1,34 @@
+header input[type=text]{
+    height: 30px;
+}
+
 .formulario{
     color: white;
+    font-size: 1.2rem;
     #descripcion{
         max-width: 600px;
         min-height: 100px;
     }
     input[type=text]{
         width: 600px;
+        margin-bottom: 30px;
+    }
+    textarea{
+        margin-bottom: 30px;
     }
     button{
-        margin-top: 1em;
+        margin: 25px 15px;
+        height: 45px;
+    }
+    #cancelar{
+        background-color: #181818;
+        border: 3px solid #ebebeb;
+        color: #ebebeb;
+        margin-top: 0px;
+    }
+    #cancelar:hover{
+        border: 3px solid #ebebeb;
+        background-color: #383838;
     }
 }
 
