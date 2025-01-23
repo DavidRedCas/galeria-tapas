@@ -1,8 +1,9 @@
-header input[type=text]{
-    height: 30px;
+html, body {
+    min-height: 100%;
 }
 
 .formulario{
+    min-height: 75vh;
     color: white;
     font-size: 1.2rem;
     #descripcion{
@@ -16,15 +17,18 @@ header input[type=text]{
     textarea{
         margin-bottom: 30px;
     }
-    button{
-        margin: 25px 15px;
-        height: 45px;
+    .botonesNuevaTapa{
+        margin: 25px 0px;
+    }
+    .botonNuevaTapa{
+        margin: 0px 15px;
+        height: 50px;
+        vertical-align: top;
     }
     #cancelar{
         background-color: #181818;
         border: 3px solid #ebebeb;
         color: #ebebeb;
-        margin-top: 0px;
     }
     #cancelar:hover{
         border: 3px solid #ebebeb;
@@ -32,7 +36,7 @@ header input[type=text]{
     }
 }
 
-footer{
+.footer{
     position: fixed;
     bottom: 0;
 }
