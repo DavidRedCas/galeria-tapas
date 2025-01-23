@@ -17,7 +17,7 @@ La estética general es simple, en escala de grises y fondo oscuro, con los elem
 
 -----------------------------------------------------------------------------------
 
-Galería interactiva con DOM:
+# Galería interactiva con DOM:
 
 La galería se genera dinámicamente utilizando DOM, estando los datos en un JSON que se carga en un array en memoria, y las operaciones de editar, eliminar y añadir se ejecutan sobre este array.
 
@@ -31,18 +31,31 @@ La galería conserva la estética original, añadiendo una sección bajo la foto
 
 -----------------------------------------------------------------------------------
 
-Estudio Usabilidad:
-Scroll infinito en la galería. Solución: paginación.
-La opción para añadir tapa está muy abajo. Solución: poner esa opción en una barra de navegación.
-No existe confirmación al eliminar. Solución: añadir modal de confirmación.
-El botón de cancelar cambios al editar la tapa no era claro al tener forma de flecha. Solución: ahora se usa el mismo icono pero en forma de cuadrado.
-No hay opción de cancelar al añadir nueva tapa. Solución: añadir botón secundario para cancelar.
-El nombre de los bares se edita mediante un campo de texto, pero más adelante (al implementar la API) se sustituirá por un desplegable y tendrá una opción para editar el bar.
+# Estudio Usabilidad:
+
+1. En pantallas pequeñas en las que la galería se adapta a una columna de ancho, se produce un scroll infinito en la galería. Solución: hemos añadido botones de paginación al final de la galería para mostrar las tapas de 6 en 6. Se ha implementado usando JavaScript.
+2. La opción para añadir tapa estaban muy abajo, después de la galería. Solución: hemos movido esta opción a la barra de navegación del header.
+No existía confirmación al eliminar una tapa. Solución: hemos añadido un modal de confirmación al pulsar el icono de borrar una tapa.
+3. El significado del botón de cancelar cambios al editar la tapa podía no ser del todo claro al tener forma de flecha. Solución: ahora se usa el mismo icono pero en forma de cuadrado, similar al anterior pero con un significado más fácilmente entendible.
+4. No había opción de cancelar al añadir nueva tapa. Solución: hemos añadido botón secundario en el formulario para añadir una tapa nueva que sirve para cancelar y volver a la galería.
+5. La página de añadir nueva tapa no tenía gran consistencia con la principal. Solución: se han ajustado los estilos para hacer las dos páginas más consistentes, y se han mejorado las interfaces de ambas.
+
+
+### En desarrollo:
+
+- No hay control de usuario, hasta que se implemente el login y registro.
+- Queda por implementar el control de errores en el formulario de añadir nueva tapa.
+- El nombre de los bares se edita mediante un campo de texto, pero más adelante (al implementar la API) se sustituirá por un desplegable y tendrá una opción para editar el bar.
+- La página de añadir nueva tapa es una página separada. Se implementará como una ventana modal al pulsar el botón para añadir nueva tapa.
+
+En general, se han seguido heurísticas como: consistencia, prevención de errores, diseño minimalista, colores contrastantes, uso de metáforas, etc.
 
 -----------------------------------------------------------------------------------
 
-Diseño Adaptativo:
-En las resoluciones más grandes (>1100px), la galería se dividirá en 3 columnas, en resoluciones de 1099px a 500px se dividirá en 2 y en resoluciones menores en 1. La resolución y tamaño de las imágenes del carrusel también se adapta a esas 3 resoluciones.
-Los textos usan unidades "rem", por lo que tienen un tamaño responsivo.
+# Diseño Adaptativo:
 
-arreglar carrusel😎 en resoluciones limite😈.
+En las resoluciones más grandes (>1350px), la galería se dividirá en 3 columnas, en resoluciones de 1349px a 880px se dividirá en 2 y en resoluciones menores en 1. La resolución y tamaño de las imágenes del carrusel también se adapta a esas 3 resoluciones.
+Además de ajustarse las columnas, el tamaño de las tarjetas de cada tapa y el carrusel se adaptan a tamaños intermedios.
+Los textos usan unidades "rem", por lo que tienen un tamaño responsivo.
+Las barras de búsqueda adaptan su ancho a la resolución de la pantalla.
+Se ha usado bootstrap para la navbar, el carrusel y la modal de eliminación.

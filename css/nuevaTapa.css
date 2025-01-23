@@ -1,9 +1,9 @@
-html, body {
-    min-height: 100%;
+body {
+    margin-bottom: 100px;
+    height:100%;
 }
 
 .formulario{
-    min-height: 75vh;
     color: white;
     font-size: 1.2rem;
     #descripcion{
@@ -36,7 +36,7 @@ html, body {
     }
 }
 
-.footer{
+.footerNuevaTapa{
     position: fixed;
     bottom: 0;
 }
