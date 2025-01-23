@@ -3,10 +3,6 @@ let elementos = [];
 let paginaActual = 1;
 const elementosPorPagina = 6;
 
-document.getElementById("nuevaTapa").addEventListener("click", () => {
-    window.location.href = "nueva-tapa.html";
-});
-
 document.getElementById("mostrar-todos").addEventListener("click", (event) => {
     event.preventDefault();
     renderizarGaleria(elementos);
