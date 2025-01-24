@@ -36,8 +36,18 @@ h1{
 }
 
 .contenedor-menu{
+    display: flex;
+    flex-direction: row;
     margin-top: 25px;
+    p {
+        font-size: 1rem;
+        margin-top: 10px;
+        margin-right: 50px;
+        font-weight: bold;
+        font-style: italic;
+    }
 }
+
 
 .navbar{
     padding-left: 90px;
