@@ -1,0 +1,141 @@
+form, h1{
+    color: #ebebeb;
+}
+
+button{
+    width: 90px;
+    height: 40px;
+    border-radius: 10px;
+    font-weight: bold;
+    font-size: 1rem;
+    transition: 0.15s ease;
+}
+
+button:hover{
+    transform: scale(1.05);
+    cursor: pointer;
+}
+
+h1, th{
+    text-align: center;
+}
+
+.leyenda{
+    font-size: 1rem;
+    text-align: center;
+    color: gray;
+}
+
+span{
+    color: red;
+}
+
+table{
+    margin: 10px auto;
+    
+}
+
+.alinear{
+    text-align: right;
+}
+
+input{
+    margin: 10px 10px;
+}
+
+input[type=text] {
+    width: 250px;
+}
+
+input[type=submit] {
+    font-weight: bold;
+    font-size: 1rem;
+    margin-top: 30px;
+    margin-bottom: 80px;
+    width: 130px;
+    height: 35px;
+    transition-duration: 0.15s;
+    color: #ebebeb;
+    background-color: #181818;
+    border: 2px solid #ebebeb;
+    border-radius: 5px;
+}
+
+input[type=submit]:hover {
+    cursor: pointer;
+    transform: translateY(-1px);
+    background-color: #383838;
+    box-shadow: 2px 3px gray;
+}
+
+input[type=submit]:active {
+    transform: translateY(0px);
+    box-shadow: 1px 1px gray;
+}
+
+.errorInput{
+    border: 2px solid red;
+    border-radius: 3px;
+}
+
+input[type="checkbox"] {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    background-color: #fff;
+    vertical-align: middle;
+    box-shadow: 0px 0px 0px 1px gray;
+}
+
+/* Cuando ESTÁ marcado, cambiaremos el borde y el fondo a azul */
+input[type="checkbox"]:checked {
+    background-color: #2196F3; 
+    border-color: #2196F3;
+}
+
+input[type="checkbox"]:focus {
+    outline: none;
+    box-shadow: 0 0 3px 1px rgba(33, 150, 243, 0.5);
+}
+
+/* Se agrega la marca de verificación con un pseudo-elemento */
+input[type="checkbox"]:checked::after {
+    content: '';
+    display: block;
+    width: 6px;
+    height: 10px;
+    border: solid #fff;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+    margin: 2px 5px;
+}
+
+.errorCheckbox{
+    /* Cuando NO está marcado, el borde será rojo */
+    box-shadow: none;
+    border: 2px solid red;
+    border-radius: 4px;
+    cursor: pointer;
+    background-color: #fff;
+    vertical-align: middle;
+}
+
+.error{
+    display: flex;
+    justify-content: center;
+    font-size: 1rem;
+    color: red;
+    margin-top: -5px;
+}
+
+.escondido{
+    display: none;
+}
+
+#enlace_politica:visited{
+    color: mediumpurple;
+}

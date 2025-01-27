@@ -19,3 +19,7 @@ document.getElementById("form-tapa").addEventListener("submit", (event) => {
 document.getElementById("cancelar").addEventListener("click", () => {
     window.location.href = "index.html";
 });
+
+document.querySelector(".boton-login").addEventListener("click", (event) => {
+    window.location.href = "login.html";
+});
