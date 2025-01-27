@@ -13,11 +13,11 @@ document.getElementById("form-tapa").addEventListener("submit", (event) => {
 
     sessionStorage.setItem("nuevaTapa", JSON.stringify(nuevaTapa));
 
-    window.location.href = "index.html";
+    window.location.href = "../index.html";
 });
 
 document.getElementById("cancelar").addEventListener("click", () => {
-    window.location.href = "index.html";
+    window.location.href = "../index.html";
 });
 
 document.querySelector(".boton-login").addEventListener("click", (event) => {
