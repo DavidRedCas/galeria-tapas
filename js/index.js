@@ -1,4 +1,5 @@
-let elementos = [];
+let tapasArray = [];
+const urlBase = "http://localhost/www/ApiTapas/api/";
 
 let paginaActual = 1;
 const elementosPorPagina = 6;
@@ -9,12 +10,12 @@ document.querySelector(".boton-login").addEventListener("click", (event) => {
 
 document.getElementById("mostrar-todos").addEventListener("click", (event) => {
     event.preventDefault();
-    renderizarGaleria(elementos);
+    renderizarGaleria(tapasArray);
 });
 
 document.getElementById("mostrar-favoritos").addEventListener("click", (event) => {
     event.preventDefault();
-    const favoritos = elementos.filter(elemento => elemento.favorito);
+    const favoritos = tapasArray.filter(elemento => elemento.favorito);
     renderizarGaleria(favoritos);
 });
 
@@ -35,7 +36,7 @@ document.querySelector(".grid-galeria").addEventListener("click", (event) => {
 });
 
 function agregarTapa(nuevaTapa) {
-    const ultimoElemento = elementos[elementos.length - 1];
+    const ultimoElemento = tapasArray[tapasArray.length - 1];
     const nuevoId = ultimoElemento ? ultimoElemento.id + 1 : 0;
 
     nuevaTapa.id = nuevoId;
@@ -43,32 +44,80 @@ function agregarTapa(nuevaTapa) {
         nuevaTapa.imagen = "default.jpg"
     }
 
-    elementos.push(nuevaTapa);
+    tapasArray.push(nuevaTapa);
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-    fetch("data/elementos.json")
-    .then(response => {
-        if (!response.ok) {
-            throw new Error("Error al cargar el archivo JSON");
-        }
-        return response.json();
-    })
-    .then(data => {
-        elementos = data.elementos;
-        const nuevaTapa = JSON.parse(sessionStorage.getItem("nuevaTapa"));
-
-        if (nuevaTapa) {
-            agregarTapa(nuevaTapa);
-
-            sessionStorage.removeItem("nuevaTapa");
-        }
-        renderizarGaleriaConPaginacion(elementos);
-    })
-    .catch(error => {
-        console.error("Hubo un problema con la carga del archivo JSON:", error);
+    obtenerBares().then(baresMapa => {
+        obtenerTapas(baresMapa).then(tapas => {
+            tapasArray = tapas;
+            renderizarGaleriaConPaginacion(tapasArray);
+        });
     });
 });
+
+async function obtenerBares() {
+    // Aquí iría la lógica para obtener los bares desde la API
+    // Por ejemplo, puedes hacer una llamada a la API para obtener los bares.
+    // Estoy usando datos de ejemplo para ilustrar el proceso.
+
+    try {
+        const response = await fetch(urlBase+'bares/');
+        const bares = await response.json();
+        // Mapeamos los bares a un objeto donde el id_bar es la clave y el nombre el valor
+        const baresMapa = {};
+        bares.forEach(bar => {
+            baresMapa[parseInt(bar.id_bar)] = bar.nombre;
+        });
+        return baresMapa;
+    } catch (error) {
+        console.error("Error al obtener los bares:", error);
+        return {};
+    }
+}
+
+async function obtenerFavoritos(tapaId) {
+    try {
+        const response = await fetch(urlBase+`favoritos/?tapa=${tapaId}`);
+        const data = await response.json();
+        return data.total_favoritos || 0;
+    } catch (error) {
+        console.error(`Error al obtener favoritos para tapa ${tapaId}:`, error);
+        return 0;
+    }
+}
+
+async function obtenerTapas(baresMapa) {
+    return fetch(urlBase+'tapas/')
+        .then(response => response.json())
+        .then(tapasData => {
+            // Usamos un array de promesas para obtener los favoritos de cada tapa
+            const tapasConFavoritos = tapasData.map(tapa => {
+                const nombreBar = baresMapa[parseInt(tapa.id_bar)] || 'Bar desconocido';
+                return obtenerFavoritos(tapa.id_tapa) // Obtenemos los favoritos para cada tapa
+                    .then(numFavoritos => {
+                        return {
+                            id: parseInt(tapa.id_tapa),
+                            titulo: tapa.titulo,
+                            alt: tapa.alt,
+                            imagen: tapa.imagen || "default.jpg",
+                            descripcion: tapa.descripcion,
+                            bar: nombreBar,
+                            favorito: false,
+                            numFavoritos: numFavoritos // Asignamos el número de favoritos
+                        };
+                    });
+            });
+
+            // Esperamos a que todas las promesas se resuelvan
+            return Promise.all(tapasConFavoritos);
+        })
+        .catch(error => {
+            console.error("Error al obtener las tapas:", error);
+            return []; // Retornamos un array vacío en caso de error
+        });
+}
+
 
 function renderizarGaleriaConPaginacion(elementos) {
     const inicio = (paginaActual-1) * elementosPorPagina;
@@ -206,16 +255,16 @@ function crearElementoGrid(elemento) {
 
 function renderizarControlesPaginacion() {
     const contenedorPaginacion = document.querySelector(".paginacion");
-    contenedorPaginacion.innerHTML = ""; // Limpia los controles existentes
+    contenedorPaginacion.innerHTML = "";
 
-    const totalPaginas = Math.ceil(elementos.length / elementosPorPagina);
+    const totalPaginas = Math.ceil(tapas.length / elementosPorPagina);
 
     if (paginaActual > 1) {
         const botonAnterior = document.createElement("button");
         botonAnterior.textContent = "Anterior";
         botonAnterior.addEventListener("click", () => {
             paginaActual--;
-            renderizarGaleriaConPaginacion(elementos);
+            renderizarGaleriaConPaginacion(tapas);
         });
         contenedorPaginacion.appendChild(botonAnterior);
     }
@@ -226,7 +275,7 @@ function renderizarControlesPaginacion() {
         botonPagina.className = i === paginaActual ? "activo" : "";
         botonPagina.addEventListener("click", () => {
             paginaActual = i;
-            renderizarGaleriaConPaginacion(elementos);
+            renderizarGaleriaConPaginacion(tapas);
         });
         contenedorPaginacion.appendChild(botonPagina);
     }
@@ -236,7 +285,7 @@ function renderizarControlesPaginacion() {
         botonSiguiente.textContent = "Siguiente";
         botonSiguiente.addEventListener("click", () => {
             paginaActual++;
-            renderizarGaleriaConPaginacion(elementos);
+            renderizarGaleriaConPaginacion(tapas);
         });
         contenedorPaginacion.appendChild(botonSiguiente);
     }
@@ -252,9 +301,9 @@ function cambiarFavorito(elemento) {
     favorito.classList.toggle("escondido");
     noFavorito.classList.toggle("escondido");
 
-    const index = elementos.findIndex(e => e.id == id);
+    const index = tapas.findIndex(e => e.id == id);
     if (index !== -1) {
-        elementos[index].favorito = !elementos[index].favorito;
+        tapas[index].favorito = !tapas[index].favorito;
     }
 }
 
@@ -271,9 +320,9 @@ function eliminarTapa(elemento){
 
     document.getElementById("confirmarEliminacion").addEventListener("click", () => {
         if (id !== null) {
-            elementos = elementos.filter(elemento => elemento.id !== id);
+            tapas = tapas.filter(elemento => elemento.id !== id);
 
-            renderizarGaleria(elementos);
+            renderizarGaleria(tapas);
 
             const modal = bootstrap.Modal.getInstance(document.getElementById("modalConfirmarEliminacion"));
             modal.hide();
@@ -330,11 +379,11 @@ function guardarCambiosTapa(elemento) {
     const nuevaDescripcion = textareaDescripcion.value;
     const nuevoBar = inputBar.value;
 
-    const index = elementos.findIndex(e => e.id == id);
+    const index = tapas.findIndex(e => e.id == id);
     if (index !== -1) {
-        elementos[index].titulo = nuevoTitulo;
-        elementos[index].descripcion = nuevaDescripcion;
-        elementos[index].bar = nuevoBar;
+        tapas[index].titulo = nuevoTitulo;
+        tapas[index].descripcion = nuevaDescripcion;
+        tapas[index].bar = nuevoBar;
     }
 
     const parafoBar = document.createElement("u");
@@ -372,11 +421,11 @@ function cancelarCambiosTapa(elemento) {
     let titulo = "";
     let descripcion = "";
     let bar = "";
-    const index = elementos.findIndex(e => e.id == id);
+    const index = tapas.findIndex(e => e.id == id);
     if (index !== -1) {
-        titulo = elementos[index].titulo;
-        descripcion = elementos[index].descripcion;
-        bar = elementos[index].bar;
+        titulo = tapas[index].titulo;
+        descripcion = tapas[index].descripcion;
+        bar = tapas[index].bar;
     }
     
     const parafoBar = document.createElement("u");
