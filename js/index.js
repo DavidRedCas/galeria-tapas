@@ -1,4 +1,5 @@
 let tapasArray = [];
+let bares = [];
 const urlBase = "http://localhost/www/ApiTapas/api/";
 
 let paginaActual = 1;
@@ -40,31 +41,31 @@ function agregarTapa(nuevaTapa) {
     const nuevoId = ultimoElemento ? ultimoElemento.id + 1 : 0;
 
     nuevaTapa.id = nuevoId;
-    if(nuevaTapa.imagen === ""){
-        nuevaTapa.imagen = "default.jpg"
-    }
 
     tapasArray.push(nuevaTapa);
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-    obtenerBares().then(baresMapa => {
-        obtenerTapas(baresMapa).then(tapas => {
+    obtenerNombreBares().then(baresMapa => {
+        bares = baresMapa;
+        obtenerTapas(bares).then(tapas => {
             tapasArray = tapas;
+            const nuevaTapa = JSON.parse(sessionStorage.getItem("nuevaTapa"));
+
+            if (nuevaTapa) {
+                agregarTapa(nuevaTapa);
+
+                sessionStorage.removeItem("nuevaTapa");
+            }
             renderizarGaleriaConPaginacion(tapasArray);
         });
     });
 });
 
-async function obtenerBares() {
-    // Aquí iría la lógica para obtener los bares desde la API
-    // Por ejemplo, puedes hacer una llamada a la API para obtener los bares.
-    // Estoy usando datos de ejemplo para ilustrar el proceso.
-
+async function obtenerNombreBares() {
     try {
         const response = await fetch(urlBase+'bares/');
         const bares = await response.json();
-        // Mapeamos los bares a un objeto donde el id_bar es la clave y el nombre el valor
         const baresMapa = {};
         bares.forEach(bar => {
             baresMapa[parseInt(bar.id_bar)] = bar.nombre;
@@ -91,30 +92,27 @@ async function obtenerTapas(baresMapa) {
     return fetch(urlBase+'tapas/')
         .then(response => response.json())
         .then(tapasData => {
-            // Usamos un array de promesas para obtener los favoritos de cada tapa
-            const tapasConFavoritos = tapasData.map(tapa => {
-                const nombreBar = baresMapa[parseInt(tapa.id_bar)] || 'Bar desconocido';
-                return obtenerFavoritos(tapa.id_tapa) // Obtenemos los favoritos para cada tapa
-                    .then(numFavoritos => {
-                        return {
-                            id: parseInt(tapa.id_tapa),
-                            titulo: tapa.titulo,
-                            alt: tapa.alt,
-                            imagen: tapa.imagen || "default.jpg",
-                            descripcion: tapa.descripcion,
-                            bar: nombreBar,
-                            favorito: false,
-                            numFavoritos: numFavoritos // Asignamos el número de favoritos
-                        };
-                    });
+            const tapasConFavoritos = tapasData.map(async tapa => {
+                const nombreBar = baresMapa[parseInt(tapa.bar)] || 'Bar desconocido';
+                const numFavoritos = await obtenerFavoritos(tapa.id_tapa) // Obtenemos los favoritos para cada tapa
+                    ;
+                return {
+                    id: parseInt(tapa.id_tapa),
+                    titulo: tapa.titulo,
+                    alt: tapa.alt,
+                    imagen: tapa.imagen,
+                    descripcion: tapa.descripcion,
+                    bar: nombreBar,
+                    favorito: false,
+                    numFavoritos: numFavoritos
+                };
             });
 
-            // Esperamos a que todas las promesas se resuelvan
             return Promise.all(tapasConFavoritos);
         })
         .catch(error => {
             console.error("Error al obtener las tapas:", error);
-            return []; // Retornamos un array vacío en caso de error
+            return [];
         });
 }
 
@@ -146,7 +144,10 @@ function crearElementoGrid(elemento) {
 
     const picture = document.createElement("picture");
 
-    const imagen = elemento.imagen;
+    let imagen = "default.jpg";
+    if(elemento.imagen!==""){
+        imagen = elemento.imagen;
+    }
 
     const sourceSmall = document.createElement("source");
     sourceSmall.srcset = "img/480/"+imagen;
@@ -257,14 +258,14 @@ function renderizarControlesPaginacion() {
     const contenedorPaginacion = document.querySelector(".paginacion");
     contenedorPaginacion.innerHTML = "";
 
-    const totalPaginas = Math.ceil(tapas.length / elementosPorPagina);
+    const totalPaginas = Math.ceil(tapasArray.length / elementosPorPagina);
 
     if (paginaActual > 1) {
         const botonAnterior = document.createElement("button");
         botonAnterior.textContent = "Anterior";
         botonAnterior.addEventListener("click", () => {
             paginaActual--;
-            renderizarGaleriaConPaginacion(tapas);
+            renderizarGaleriaConPaginacion(tapasArray);
         });
         contenedorPaginacion.appendChild(botonAnterior);
     }
@@ -275,7 +276,7 @@ function renderizarControlesPaginacion() {
         botonPagina.className = i === paginaActual ? "activo" : "";
         botonPagina.addEventListener("click", () => {
             paginaActual = i;
-            renderizarGaleriaConPaginacion(tapas);
+            renderizarGaleriaConPaginacion(tapasArray);
         });
         contenedorPaginacion.appendChild(botonPagina);
     }
@@ -285,7 +286,7 @@ function renderizarControlesPaginacion() {
         botonSiguiente.textContent = "Siguiente";
         botonSiguiente.addEventListener("click", () => {
             paginaActual++;
-            renderizarGaleriaConPaginacion(tapas);
+            renderizarGaleriaConPaginacion(tapasArray);
         });
         contenedorPaginacion.appendChild(botonSiguiente);
     }
@@ -301,9 +302,9 @@ function cambiarFavorito(elemento) {
     favorito.classList.toggle("escondido");
     noFavorito.classList.toggle("escondido");
 
-    const index = tapas.findIndex(e => e.id == id);
+    const index = tapasArray.findIndex(e => e.id == id);
     if (index !== -1) {
-        tapas[index].favorito = !tapas[index].favorito;
+        tapasArray[index].favorito = !tapasArray[index].favorito;
     }
 }
 
@@ -320,9 +321,9 @@ function eliminarTapa(elemento){
 
     document.getElementById("confirmarEliminacion").addEventListener("click", () => {
         if (id !== null) {
-            tapas = tapas.filter(elemento => elemento.id !== id);
+            tapasArray = tapasArray.filter(elemento => elemento.id !== id);
 
-            renderizarGaleria(tapas);
+            renderizarGaleriaConPaginacion(tapasArray);
 
             const modal = bootstrap.Modal.getInstance(document.getElementById("modalConfirmarEliminacion"));
             modal.hide();
@@ -379,11 +380,11 @@ function guardarCambiosTapa(elemento) {
     const nuevaDescripcion = textareaDescripcion.value;
     const nuevoBar = inputBar.value;
 
-    const index = tapas.findIndex(e => e.id == id);
+    const index = tapasArray.findIndex(e => e.id == id);
     if (index !== -1) {
-        tapas[index].titulo = nuevoTitulo;
-        tapas[index].descripcion = nuevaDescripcion;
-        tapas[index].bar = nuevoBar;
+        tapasArray[index].titulo = nuevoTitulo;
+        tapasArray[index].descripcion = nuevaDescripcion;
+        tapasArray[index].bar = nuevoBar;
     }
 
     const parafoBar = document.createElement("u");
@@ -421,11 +422,11 @@ function cancelarCambiosTapa(elemento) {
     let titulo = "";
     let descripcion = "";
     let bar = "";
-    const index = tapas.findIndex(e => e.id == id);
+    const index = tapasArray.findIndex(e => e.id == id);
     if (index !== -1) {
-        titulo = tapas[index].titulo;
-        descripcion = tapas[index].descripcion;
-        bar = tapas[index].bar;
+        titulo = tapasArray[index].titulo;
+        descripcion = tapasArray[index].descripcion;
+        bar = tapasArray[index].bar;
     }
     
     const parafoBar = document.createElement("u");
