@@ -27,6 +27,10 @@ h2{
     font-weight: bold;
 }
 
+#erroresLogin{
+    color: red;
+}
+
 .leyenda{
     font-size: 1rem;
     text-align: center;
@@ -50,7 +54,7 @@ input{
     margin: 10px 10px;
 }
 
-input[type=text] {
+input[type=text], input[type=password]{
     width: 250px;
 }
 
@@ -145,4 +149,9 @@ input[type="checkbox"]:checked::after {
 
 #enlace_politica:visited{
     color: mediumpurple;
+}
+
+.footerLogin{
+    position: fixed;
+    bottom: 0;
 }

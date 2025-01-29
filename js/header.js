@@ -7,9 +7,9 @@ document.addEventListener("DOMContentLoaded", function () {
     // Modificar el contenido del usuario en el header
     if (usuario && usuarioElemento) {
         usuarioElemento.textContent = usuario;
-    } else if (usuarioElemento) {
+    }/* else if (usuarioElemento) {
         usuarioElemento.textContent = "";
-    }
+    }*/
 
     // Ocultar la barra de navegación si no hay "tipo" en sessionStorage
     if (!tipo) {

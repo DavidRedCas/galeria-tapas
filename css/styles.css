@@ -30,8 +30,12 @@ h1{
 
 .contenedor-logo{
     display: flex;
-    flex-direction: row;
-    
+    flex-direction: row;   
+}
+
+a{
+    text-decoration: none;
+    color: black;
 }
 
 .contenedor-menu{
@@ -64,7 +68,7 @@ h1{
     cursor: not-allowed;
 }
 
-input[type=text]{
+input[type=text], input[type=password]{
     width: 500px;
     height: 37px;
     border: 3px solid gray;
@@ -97,14 +101,27 @@ button:hover{
     background-color: lightgray;
 }
 
-.boton-login{
+.botones-menu{
+    margin-right: 50px;
+}
+
+.botones-menu button{
+    position: relative;
     background-color: #4d4d4d;
     color: white;
-    margin-right: 100px;
+    margin-left: 50px;
     border: 3px solid darkgray;
 }
 
-.boton-login:hover{
+.boton-registro{
+    width: 120px;
+}
+
+.boton-cerrar{
+    width: 130px;
+}
+
+.botones-menu button:hover{
     background-color: #6e6e6e;
 }
 
