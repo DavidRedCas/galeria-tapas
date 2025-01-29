@@ -302,25 +302,47 @@ function cambiarFavorito(elemento) {
     }
 }
 
-function eliminarTapa(elemento){
+async function eliminarTapa(elemento) {
+    // Obtener el ID y nombre de la tapa
     const elementoGrid = elemento.closest(".elemento-grid");
     const id = parseInt(elementoGrid.getAttribute("data-id"));
-
     const nombreTapa = elementoGrid.querySelector(".texto-tapa strong").textContent;
 
+    // Mostrar el nombre de la tapa en el modal
     document.getElementById("nombreTapaEliminar").textContent = nombreTapa;
 
+    // Crear y mostrar el modal de confirmación
     const modal = new bootstrap.Modal(document.getElementById("modalConfirmarEliminacion"));
     modal.show();
 
-    document.getElementById("confirmarEliminacion").addEventListener("click", () => {
-        if (id !== null) {
-            tapasArray = tapasArray.filter(elemento => elemento.id !== id);
+    // Agregar el evento de confirmación
+    document.getElementById("confirmarEliminacion").addEventListener("click", async () => {
+        // Realizar la solicitud DELETE usando fetch
+        try {
+            const response = await fetch(urlBase+`tapas/?id=${id}`, {
+                method: 'DELETE',
+                headers: {
+                    'Authorization': 'Bearer ' + token // Asegúrate de pasar el JWT correctamente
+                }
+            });
 
-            renderizarGaleriaConPaginacion(tapasArray);
+            // Si la respuesta es exitosa
+            if (response.ok) {
+                // Eliminar la tapa localmente
+                tapasArray = tapasArray.filter(tapa => tapa.id !== id);
 
-            const modal = bootstrap.Modal.getInstance(document.getElementById("modalConfirmarEliminacion"));
-            modal.hide();
+                // Volver a renderizar la galería
+                renderizarGaleriaConPaginacion(tapasArray);
+
+                // Cerrar el modal
+                modal.hide();
+            } else {
+                // Manejar el error, por ejemplo, mostrar un mensaje de error
+                alert('Error al eliminar la tapa. Inténtalo nuevamente.');
+            }
+        } catch (error) {
+            // Manejar cualquier error de la solicitud (ej. problemas de red)
+            alert('Error al eliminar la tapa. Inténtalo nuevamente.');
         }
     });
 }
