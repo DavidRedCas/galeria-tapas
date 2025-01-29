@@ -6,6 +6,7 @@ let paginaActual = 1;
 const elementosPorPagina = 6;
 
 const tipo = sessionStorage.getItem("tipo");
+const token = sessionStorage.getItem("token");
 
 document.getElementById("mostrar-todos").addEventListener("click", (event) => {
     event.preventDefault();
@@ -342,28 +343,23 @@ function editarTapa(elemento) {
     const descripcionElemento = elementoGrid.querySelector(".texto-tapa span");
     const parafoBar = elementoGrid.querySelector(".texto-tapa .nombreBar u");
 
-    // Crear input para el título
     const inputTitulo = document.createElement("input");
     inputTitulo.type = "text";
     inputTitulo.value = tituloElemento.textContent;
     inputTitulo.id = `titulo-${id}`;
 
-    // Crear textarea para la descripción
     const textareaDescripcion = document.createElement("textarea");
     textareaDescripcion.value = descripcionElemento.textContent;
     textareaDescripcion.id = `descripcion-${id}`;
 
-    // Crear select para el bar
     const selectBar = document.createElement("select");
     selectBar.id = `bar-${id}`;
 
-    // Crear las opciones para el select usando los bares disponibles
     Object.entries(bares).forEach(([barId, barNombre]) => {
         const option = document.createElement("option");
         option.value = barId;
         option.textContent = barNombre;
 
-        // Seleccionar el bar actual
         if (barNombre === parafoBar.textContent) {
             option.selected = true;
         }
@@ -371,12 +367,10 @@ function editarTapa(elemento) {
         selectBar.appendChild(option);
     });
 
-    // Reemplazar los elementos de texto por los nuevos campos
     tituloElemento.replaceWith(inputTitulo);
     descripcionElemento.replaceWith(textareaDescripcion);
     parafoBar.parentElement.replaceChild(selectBar, parafoBar);
 
-    // Mostrar y ocultar botones según el estado de edición
     const editar = elementoGrid.querySelector(".editar");
     const guardar = elementoGrid.querySelector(".guardar");
     const eliminar = elementoGrid.querySelector(".eliminar");
@@ -388,57 +382,77 @@ function editarTapa(elemento) {
     cancelar.classList.remove("escondido");
 }
 
-function guardarCambiosTapa(elemento) {
+async function guardarCambiosTapa(elemento) {
     const elementoGrid = elemento.closest(".elemento-grid");
     const id = parseInt(elementoGrid.getAttribute("data-id"));
-
+    
     // Obtener los nuevos valores de los campos editados
     const inputTitulo = document.getElementById(`titulo-${id}`);
     const textareaDescripcion = document.getElementById(`descripcion-${id}`);
     const selectBar = document.getElementById(`bar-${id}`);
-
+    
     const nuevoTitulo = inputTitulo.value;
     const nuevaDescripcion = textareaDescripcion.value;
-    const nuevoBarId = selectBar.value;
-    const nuevoBarNombre = bares[nuevoBarId];  // Usamos el ID del bar para obtener su nombre
+    const nuevoBarId = selectBar.value;  // Enviar el ID del bar directamente
+    const nuevoBarNombre = bares[nuevoBarId];
+    
+    // Crear un objeto con los datos para actualizar la tapa
+    const tapaActualizada = {
+        id: id,
+        titulo: nuevoTitulo,
+        descripcion: nuevaDescripcion,
+        bar: nuevoBarId,  // Enviar el ID del bar aquí
+    };
 
-    // Encontrar el índice de la tapa que se está editando
-    const index = tapasArray.findIndex(e => e.id == id);
-    if (index !== -1) {
-        // Actualizar la tapa con los nuevos valores
-        tapasArray[index].titulo = nuevoTitulo;
-        tapasArray[index].descripcion = nuevaDescripcion;
-        tapasArray[index].bar = nuevoBarNombre; // Actualizamos el nombre del bar
+    try {
+        // Enviar la solicitud PUT al backend para actualizar la tapa
+        const response = await fetch(urlBase+'tapas/', {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+                'Authorization': 'Bearer ' + token, // Aquí debes poner el token JWT
+            },
+            body: new URLSearchParams(tapaActualizada),
+        });
+
+        // Manejo de la respuesta
+        if (response.ok) {
+            const data = await response.json();
+            if (data.id_tapa) {
+                // Si la respuesta es exitosa, actualizamos los datos en la interfaz de usuario
+                const parafoBar = document.createElement("u");
+                parafoBar.textContent = nuevoBarNombre;  // Mostrar el ID del bar (si se desea mostrar el nombre, tendrías que mapearlo)
+
+                const tituloElemento = document.createElement("strong");
+                tituloElemento.textContent = nuevoTitulo;
+
+                const descripcionElemento = document.createElement("span");
+                descripcionElemento.textContent = nuevaDescripcion;
+
+                // Reemplazar los campos editados por los nuevos valores
+                inputTitulo.replaceWith(tituloElemento);
+                textareaDescripcion.replaceWith(descripcionElemento);
+                selectBar.replaceWith(parafoBar);
+
+                // Cambiar los botones
+                const editar = elementoGrid.querySelector(".editar");
+                const guardar = elementoGrid.querySelector(".guardar");
+                const eliminar = elementoGrid.querySelector(".eliminar");
+                const cancelar = elementoGrid.querySelector(".cancelar");
+
+                // Restablecer los botones a su estado original
+                editar.classList.remove("escondido");
+                guardar.classList.add("escondido");
+                eliminar.classList.remove("escondido");
+                cancelar.classList.add("escondido");
+            }
+        } else {
+            console.error("Error al guardar los cambios:", response.statusText);
+        }
+    } catch (error) {
+        console.error("Hubo un error con la solicitud:", error);
     }
-
-    // Crear los elementos para mostrar los valores actualizados
-    const parafoBar = document.createElement("u");
-    parafoBar.textContent = nuevoBarNombre;
-
-    const tituloElemento = document.createElement("strong");
-    tituloElemento.textContent = nuevoTitulo;
-
-    const descripcionElemento = document.createElement("span");
-    descripcionElemento.textContent = nuevaDescripcion;
-
-    // Reemplazar los campos editados por los nuevos valores
-    inputTitulo.replaceWith(tituloElemento);
-    textareaDescripcion.replaceWith(descripcionElemento);
-    selectBar.replaceWith(parafoBar);
-
-    // Mostrar y ocultar botones según el estado de edición
-    const editar = elementoGrid.querySelector(".editar");
-    const guardar = elementoGrid.querySelector(".guardar");
-    const eliminar = elementoGrid.querySelector(".eliminar");
-    const cancelar = elementoGrid.querySelector(".cancelar");
-
-    // Restablecer los botones a su estado original
-    editar.classList.remove("escondido");
-    guardar.classList.add("escondido");
-    eliminar.classList.remove("escondido");
-    cancelar.classList.add("escondido");
 }
-
 
 function cancelarCambiosTapa(elemento) {
     const elementoGrid = elemento.closest(".elemento-grid");
