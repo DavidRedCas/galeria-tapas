@@ -47,7 +47,7 @@ formulario.addEventListener("submit", async function(event) {
                 } else if (response.status === 400) {
                     console.error("Error en el registro. Datos incorrectos.");
                 } else if (response.status === 409) {
-                    console.error("Error: nombre_usuario o emali en uso");
+                    console.error("Error: nombre_usuario o email en uso");
                 } else {
                     console.error("Error en el servidor.");
                 }
