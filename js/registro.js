@@ -1,21 +1,58 @@
-document.getElementById("submit").addEventListener("click", function (event) {
+const formulario = document.querySelector("form");
+formulario.addEventListener("submit", async function(event) {
+    event.preventDefault();  // Evitar el envío por defecto del formulario
+    
     let formValido = true;
 
+    // Validación de todos los campos
     if (!validarNombre()) formValido = false;
     if (!validarPrimerApellido()) formValido = false;
     if (!validarSegundoApellido()) formValido = false;
     if (!validarCorreo()) formValido = false;
     if (!validarNombreUsuario()) formValido = false;
-    if (!validarContrasena()) formValido = false;
-    if (!validarConfirmacionContrasena()) formValido = false;
+    if (!validarContrasena()){
+        formValido = false;   
+    }else{
+        if (!validarConfirmacionContrasena()) formValido = false;
+    }
     if (!validarPoliticaPrivacidad()) formValido = false;
 
-    if (formValido) {
-        alert("Formulario enviado con éxito.");
+    
+    /* if (formValido) {
+        console.error("Formulario enviado con éxito.");
     }else{
         event.preventDefault();
-    }
+    } */
+        if (formValido) {
+            const formData = new FormData();
+            formData.append("nombre", document.getElementById("nombre").value);
+            formData.append("apellido1", document.getElementById("ape1").value);
+            formData.append("apellido2", document.getElementById("ape2").value);
+            formData.append("email", document.getElementById("correo").value);
+            formData.append("nombre_usuario", document.getElementById("user").value);
+            formData.append("contrasena", document.getElementById("contra").value);
+    
+            try {
+                const response = await fetch("http://localhost/www/ApiTapas/api/clientes/", {
+                    method: "POST",
+                    body: formData
+                });
+    
+                if (response.ok) {
+                    window.location.href = "login.html";
+                } else if (response.status === 400) {
+                    console.error("Error en el registro. Datos incorrectos.");
+                } else if (response.status === 409) {
+                    console.error("Error: nombre_usuario o emali en uso");
+                } else {
+                    console.error("Error en el servidor.");
+                }
+            } catch (error) {
+                console.error("Error en la solicitud:", error);
+            }
+        }
 });
+
 
 function validarNombre() {
     const nombre = document.getElementById("nombre");
@@ -79,14 +116,14 @@ function validarContrasena() {
 
 function validarConfirmacionContrasena() {
     let esValido = false;
-    if(validarContrasena()){
-        const contra = document.getElementById("contra");
-        const confContra = document.getElementById("confContra");
-        const errorConfContra = document.getElementById("errorconfContra");
-        esValido = confContra.value === contra.value;
+    
+    const contra = document.getElementById("contra");
+    const confContra = document.getElementById("confContra");
+    const errorConfContra = document.getElementById("errorconfContra");
+    esValido = confContra.value === contra.value;
 
-        manejarErrores(confContra, errorConfContra, esValido);
-    }
+    manejarErrores(confContra, errorConfContra, esValido);
+
     return esValido;
 }
 
