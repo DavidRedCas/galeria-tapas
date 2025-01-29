@@ -19,7 +19,6 @@
 
             if (response.ok) {
                 const data = await response.json();
-                alert("Inicio de sesión exitoso");
                 sessionStorage.setItem("token", data.token);
                 sessionStorage.setItem("usuario", data.usuario);
                 sessionStorage.setItem("tipo", data.tipo);

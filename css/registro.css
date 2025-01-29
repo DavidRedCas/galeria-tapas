@@ -1,4 +1,4 @@
-form, h1{
+form, h2{
     color: #ebebeb;
 }
 
@@ -16,8 +16,15 @@ button:hover{
     cursor: pointer;
 }
 
-h1, th{
+h2, th{
     text-align: center;
+}
+
+h2{
+    margin-left: 10px;
+    font-size: 2rem;
+    margin-top: 28px;
+    font-weight: bold;
 }
 
 .leyenda{

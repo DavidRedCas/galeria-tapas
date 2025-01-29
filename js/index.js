@@ -5,10 +5,6 @@ const urlBase = "http://localhost/www/ApiTapas/api/";
 let paginaActual = 1;
 const elementosPorPagina = 6;
 
-document.querySelector(".boton-login").addEventListener("click", (event) => {
-    window.location.href = "html/login.html";
-});
-
 document.getElementById("mostrar-todos").addEventListener("click", (event) => {
     event.preventDefault();
     renderizarGaleriaConPaginacion(tapasArray);

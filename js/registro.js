@@ -39,7 +39,11 @@ formulario.addEventListener("submit", async function(event) {
                 });
     
                 if (response.ok) {
-                    window.location.href = "login.html";
+                    const data = await response.json();
+                    sessionStorage.setItem("token", data.token);
+                    sessionStorage.setItem("usuario", data.usuario);
+                    sessionStorage.setItem("tipo", data.tipo);
+                    window.location.href = "../index.html"; // Redirige a la página de inicio
                 } else if (response.status === 400) {
                     console.error("Error en el registro. Datos incorrectos.");
                 } else if (response.status === 409) {
@@ -155,7 +159,3 @@ function manejarErroresCheckbox(campo, errorElemento, esValido) {
         errorElemento.classList.add("escondido");
     }
 }
-
-document.querySelector(".boton-login").addEventListener("click", (event) => {
-    window.location.href = "login.html";
-});
