@@ -52,13 +52,6 @@ document.addEventListener("DOMContentLoaded", () => {
         bares = baresMapa;
         obtenerTapas(bares).then(tapas => {
             tapasArray = tapas;
-            const nuevaTapa = JSON.parse(sessionStorage.getItem("nuevaTapa"));
-
-            if (nuevaTapa) {
-                agregarTapa(nuevaTapa);
-
-                sessionStorage.removeItem("nuevaTapa");
-            }
             renderizarGaleriaConPaginacion(tapasArray);
         });
     });
@@ -145,10 +138,7 @@ function crearElementoGrid(elemento) {
 
     const picture = document.createElement("picture");
 
-    let imagen = "default.jpg";
-    if(elemento.imagen!==""){
-        imagen = elemento.imagen;
-    }
+    let imagen = elemento.imagen || "default.jpg";
 
     const sourceSmall = document.createElement("source");
     sourceSmall.srcset = "img/480/"+imagen;

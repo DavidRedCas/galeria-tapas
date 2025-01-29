@@ -28,9 +28,15 @@
             
             <label for="descripcion">Descripción:</label><br>
             <textarea id="descripcion" required></textarea><br>
+
+            <label for="alt">Texto alternativo:</label><br>
+            <input type="text" id="alt" required><br>
             
             <label for="bar">Bar:</label><br>
-            <input type="text" id="bar" required><br>
+            <select id="bar" required>
+                <option value="">Selecciona un bar</option>
+                <!-- Aquí se agregarán las opciones de bares de manera dinámica -->
+            </select><br>
             
             <label for="imagen">Imagen (nombre de archivo):</label><br>
             <input type="text" id="imagen"><br>
