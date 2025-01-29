@@ -1,9 +1,11 @@
 let tapasArray = [];
-let bares = [];
+let bares = {};
 const urlBase = "http://localhost/www/ApiTapas/api/";
 
 let paginaActual = 1;
 const elementosPorPagina = 6;
+
+const tipo = sessionStorage.getItem("tipo");
 
 document.getElementById("mostrar-todos").addEventListener("click", (event) => {
     event.preventDefault();
@@ -19,16 +21,19 @@ document.getElementById("mostrar-favoritos").addEventListener("click", (event) =
 document.querySelector(".grid-galeria").addEventListener("click", (event) => {
     const clickedElement = event.target;
 
-    if (clickedElement.classList.contains("no-favorito") || clickedElement.classList.contains("favorito")) {
+    if (tipo !== null && (clickedElement.classList.contains("no-favorito") || clickedElement.classList.contains("favorito"))) {
         cambiarFavorito(clickedElement);
-    }else if(clickedElement.classList.contains("editar")){
-        editarTapa(clickedElement);
-    }else if(clickedElement.classList.contains("eliminar")){
-        eliminarTapa(clickedElement);
-    }else if(clickedElement.classList.contains("guardar")){
-        guardarCambiosTapa(clickedElement);
-    }else if(clickedElement.classList.contains("cancelar")){
-        cancelarCambiosTapa(clickedElement);
+    }
+    if(tipo==="admin"){
+        if(clickedElement.classList.contains("editar")){
+            editarTapa(clickedElement);
+        }else if(clickedElement.classList.contains("eliminar")){
+            eliminarTapa(clickedElement);
+        }else if(clickedElement.classList.contains("guardar")){
+            guardarCambiosTapa(clickedElement);
+        }else if(clickedElement.classList.contains("cancelar")){
+            cancelarCambiosTapa(clickedElement);
+        }
     }
 });
 
@@ -163,58 +168,61 @@ function crearElementoGrid(elemento) {
     img.src = "img/1080/"+imagen;
     img.alt = elemento.alt;
     picture.appendChild(img);
-    
-    const favoritoImg = document.createElement("img");
-    favoritoImg.className = "boton-galeria favorito";
-    favoritoImg.src = "img/vect/star-fill.svg";
-    favoritoImg.alt = "Marcado como favorito";
 
     const noFavoritoImg = document.createElement("img");
     noFavoritoImg.className = "boton-galeria no-favorito";
     noFavoritoImg.src = "img/vect/star.svg";
     noFavoritoImg.alt = "Marcar como favorito";
 
-    if (elemento.favorito) {
-        favoritoImg.classList.remove("escondido");
-        noFavoritoImg.classList.add("escondido");
-    } else {
-        favoritoImg.classList.add("escondido");
-        noFavoritoImg.classList.remove("escondido");
-    }
-
     const numFavoritos = document.createElement("p");
     numFavoritos.textContent = elemento.numFavoritos;
     numFavoritos.className = "numFavoritos";
 
-    const editarImg = document.createElement("img");
-    editarImg.className = "boton-galeria editar";
-    editarImg.src = "img/vect/pencil-square.svg";
-    editarImg.alt = "Editar";
-
-    const guardarImg = document.createElement("img");
-    guardarImg.className = "boton-galeria guardar escondido";
-    guardarImg.src = "img/vect/guardar.svg";
-    guardarImg.alt = "Guardar";
-
-    const eliminarImg = document.createElement("img");
-    eliminarImg.className = "boton-galeria eliminar";
-    eliminarImg.src = "img/vect/trash.svg";
-    eliminarImg.alt = "Eliminar";
-
-    const cancelarImg = document.createElement("img");
-    cancelarImg.className = "boton-galeria cancelar escondido";
-    cancelarImg.src = "img/vect/cancelar.svg";
-    cancelarImg.alt = "Cancelar";
-
     const botonesGaleria = document.createElement("div");
     botonesGaleria.className = "botones-galeria";
-    botonesGaleria.appendChild(favoritoImg);
+    if(tipo !== null){
+        const favoritoImg = document.createElement("img");
+        favoritoImg.className = "boton-galeria favorito";
+        favoritoImg.src = "img/vect/star-fill.svg";
+        favoritoImg.alt = "Marcado como favorito";
+    
+        if (elemento.favorito) {
+            favoritoImg.classList.remove("escondido");
+            noFavoritoImg.classList.add("escondido");
+        } else {
+            favoritoImg.classList.add("escondido");
+            noFavoritoImg.classList.remove("escondido");
+        }
+        botonesGaleria.appendChild(favoritoImg);
+    }
     botonesGaleria.appendChild(noFavoritoImg);
     botonesGaleria.appendChild(numFavoritos);
-    botonesGaleria.appendChild(editarImg);
-    botonesGaleria.appendChild(guardarImg);
-    botonesGaleria.appendChild(eliminarImg);
-    botonesGaleria.appendChild(cancelarImg);
+    if(tipo==="admin"){
+        const editarImg = document.createElement("img");
+        editarImg.className = "boton-galeria editar";
+        editarImg.src = "img/vect/pencil-square.svg";
+        editarImg.alt = "Editar";
+
+        const guardarImg = document.createElement("img");
+        guardarImg.className = "boton-galeria guardar escondido";
+        guardarImg.src = "img/vect/guardar.svg";
+        guardarImg.alt = "Guardar";
+
+        const eliminarImg = document.createElement("img");
+        eliminarImg.className = "boton-galeria eliminar";
+        eliminarImg.src = "img/vect/trash.svg";
+        eliminarImg.alt = "Eliminar";
+
+        const cancelarImg = document.createElement("img");
+        cancelarImg.className = "boton-galeria cancelar escondido";
+        cancelarImg.src = "img/vect/cancelar.svg";
+        cancelarImg.alt = "Cancelar";
+
+        botonesGaleria.appendChild(editarImg);
+        botonesGaleria.appendChild(guardarImg);
+        botonesGaleria.appendChild(eliminarImg);
+        botonesGaleria.appendChild(cancelarImg);
+    }
 
     const texto = document.createElement("div");
     texto.className = "texto-tapa";
@@ -334,24 +342,41 @@ function editarTapa(elemento) {
     const descripcionElemento = elementoGrid.querySelector(".texto-tapa span");
     const parafoBar = elementoGrid.querySelector(".texto-tapa .nombreBar u");
 
+    // Crear input para el título
     const inputTitulo = document.createElement("input");
     inputTitulo.type = "text";
     inputTitulo.value = tituloElemento.textContent;
     inputTitulo.id = `titulo-${id}`;
 
+    // Crear textarea para la descripción
     const textareaDescripcion = document.createElement("textarea");
     textareaDescripcion.value = descripcionElemento.textContent;
     textareaDescripcion.id = `descripcion-${id}`;
 
-    const inputBar = document.createElement("input");
-    inputBar.type = "text";
-    inputBar.value = parafoBar.textContent;
-    inputBar.id = `bar-${id}`;
+    // Crear select para el bar
+    const selectBar = document.createElement("select");
+    selectBar.id = `bar-${id}`;
 
+    // Crear las opciones para el select usando los bares disponibles
+    Object.entries(bares).forEach(([barId, barNombre]) => {
+        const option = document.createElement("option");
+        option.value = barId;
+        option.textContent = barNombre;
+
+        // Seleccionar el bar actual
+        if (barNombre === parafoBar.textContent) {
+            option.selected = true;
+        }
+
+        selectBar.appendChild(option);
+    });
+
+    // Reemplazar los elementos de texto por los nuevos campos
     tituloElemento.replaceWith(inputTitulo);
     descripcionElemento.replaceWith(textareaDescripcion);
-    parafoBar.parentElement.replaceChild(inputBar, parafoBar);
+    parafoBar.parentElement.replaceChild(selectBar, parafoBar);
 
+    // Mostrar y ocultar botones según el estado de edición
     const editar = elementoGrid.querySelector(".editar");
     const guardar = elementoGrid.querySelector(".guardar");
     const eliminar = elementoGrid.querySelector(".eliminar");
@@ -367,23 +392,28 @@ function guardarCambiosTapa(elemento) {
     const elementoGrid = elemento.closest(".elemento-grid");
     const id = parseInt(elementoGrid.getAttribute("data-id"));
 
+    // Obtener los nuevos valores de los campos editados
     const inputTitulo = document.getElementById(`titulo-${id}`);
     const textareaDescripcion = document.getElementById(`descripcion-${id}`);
-    const inputBar = document.getElementById(`bar-${id}`);
+    const selectBar = document.getElementById(`bar-${id}`);
 
     const nuevoTitulo = inputTitulo.value;
     const nuevaDescripcion = textareaDescripcion.value;
-    const nuevoBar = inputBar.value;
+    const nuevoBarId = selectBar.value;
+    const nuevoBarNombre = bares[nuevoBarId];  // Usamos el ID del bar para obtener su nombre
 
+    // Encontrar el índice de la tapa que se está editando
     const index = tapasArray.findIndex(e => e.id == id);
     if (index !== -1) {
+        // Actualizar la tapa con los nuevos valores
         tapasArray[index].titulo = nuevoTitulo;
         tapasArray[index].descripcion = nuevaDescripcion;
-        tapasArray[index].bar = nuevoBar;
+        tapasArray[index].bar = nuevoBarNombre; // Actualizamos el nombre del bar
     }
 
+    // Crear los elementos para mostrar los valores actualizados
     const parafoBar = document.createElement("u");
-    parafoBar.textContent = nuevoBar;
+    parafoBar.textContent = nuevoBarNombre;
 
     const tituloElemento = document.createElement("strong");
     tituloElemento.textContent = nuevoTitulo;
@@ -391,20 +421,24 @@ function guardarCambiosTapa(elemento) {
     const descripcionElemento = document.createElement("span");
     descripcionElemento.textContent = nuevaDescripcion;
 
+    // Reemplazar los campos editados por los nuevos valores
     inputTitulo.replaceWith(tituloElemento);
     textareaDescripcion.replaceWith(descripcionElemento);
-    inputBar.replaceWith(parafoBar);
+    selectBar.replaceWith(parafoBar);
 
+    // Mostrar y ocultar botones según el estado de edición
     const editar = elementoGrid.querySelector(".editar");
     const guardar = elementoGrid.querySelector(".guardar");
     const eliminar = elementoGrid.querySelector(".eliminar");
     const cancelar = elementoGrid.querySelector(".cancelar");
 
+    // Restablecer los botones a su estado original
     editar.classList.remove("escondido");
     guardar.classList.add("escondido");
     eliminar.classList.remove("escondido");
     cancelar.classList.add("escondido");
 }
+
 
 function cancelarCambiosTapa(elemento) {
     const elementoGrid = elemento.closest(".elemento-grid");
@@ -412,7 +446,7 @@ function cancelarCambiosTapa(elemento) {
 
     const inputTitulo = document.getElementById(`titulo-${id}`);
     const textareaDescripcion = document.getElementById(`descripcion-${id}`);
-    const inputBar = document.getElementById(`bar-${id}`);
+    const selectBar = document.getElementById(`bar-${id}`);
 
     let titulo = "";
     let descripcion = "";
@@ -435,7 +469,7 @@ function cancelarCambiosTapa(elemento) {
 
     inputTitulo.replaceWith(tituloElemento);
     textareaDescripcion.replaceWith(descripcionElemento);
-    inputBar.replaceWith(parafoBar);
+    selectBar.replaceWith(parafoBar);
 
     const editar = elementoGrid.querySelector(".editar");
     const guardar = elementoGrid.querySelector(".guardar");
