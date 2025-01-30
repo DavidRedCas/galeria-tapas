@@ -51,9 +51,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const enlaces = [
         { texto: "Galería", href: "#galeria", requiereLogin: true },
-        { texto: "Perfil", href: "#", requiereLogin: true },
+        { texto: "Perfil", href: "html/perfil.html", requiereLogin: true },
         { texto: "Añadir nueva tapa", href: "html/nueva-tapa.html", adminOnly: true },
-        { texto: "Gestión bares", href: "#", adminOnly: true },
+        { texto: "Gestión bares", href: "html/bares.html", adminOnly: true },
     ];
 
     enlaces.forEach(enlaceData => {
