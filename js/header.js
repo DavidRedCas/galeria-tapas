@@ -49,11 +49,14 @@ document.addEventListener("DOMContentLoaded", function () {
     const navbar = document.createElement("nav");
     navbar.classList.add("navbar", "navbar-expand-lg", "navbar-light");
 
+    let rutaBaseHtml = window.location.pathname.includes("/html/") ? "" : "html/";
+    let rutaBaseRaiz = window.location.pathname.includes("/html/") ? "../" : "";
+
     const enlaces = [
-        { texto: "Galería", href: "#galeria", requiereLogin: true },
-        { texto: "Perfil", href: "html/perfil.html", requiereLogin: true },
-        { texto: "Añadir nueva tapa", href: "html/nueva-tapa.html", adminOnly: true },
-        { texto: "Gestión bares", href: "html/bares.html", adminOnly: true },
+        { texto: "Galería", href: rutaBaseRaiz+"index.html", requiereLogin: true },
+        { texto: "Perfil", href: rutaBaseHtml+"perfil.html", requiereLogin: true },
+        { texto: "Añadir nueva tapa", href: rutaBaseHtml+"nueva-tapa.html", adminOnly: true },
+        { texto: "Gestión bares", href: rutaBaseHtml+"bares.html", adminOnly: true },
     ];
 
     enlaces.forEach(enlaceData => {
