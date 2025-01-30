@@ -2,6 +2,7 @@ const formulario = document.querySelector("form");
 formulario.addEventListener("submit", async function(event) {
     event.preventDefault();  // Evitar el envío por defecto del formulario
     
+    const errores = document.querySelector("#erroresLogin");
     let formValido = true;
 
     // Validación de todos los campos
@@ -17,44 +18,39 @@ formulario.addEventListener("submit", async function(event) {
     }
     if (!validarPoliticaPrivacidad()) formValido = false;
 
-    
-    /* if (formValido) {
-        console.error("Formulario enviado con éxito.");
-    }else{
-        event.preventDefault();
-    } */
-        if (formValido) {
-            const formData = new FormData();
-            formData.append("nombre", document.getElementById("nombre").value);
-            formData.append("apellido1", document.getElementById("ape1").value);
-            formData.append("apellido2", document.getElementById("ape2").value);
-            formData.append("email", document.getElementById("correo").value);
-            formData.append("nombre_usuario", document.getElementById("user").value);
-            formData.append("contrasena", document.getElementById("contra").value);
-    
-            try {
-                const response = await fetch("http://localhost/www/ApiTapas/api/clientes/", {
-                    method: "POST",
-                    body: formData
-                });
-    
-                if (response.ok) {
-                    const data = await response.json();
-                    sessionStorage.setItem("token", data.token);
-                    sessionStorage.setItem("usuario", data.usuario);
-                    sessionStorage.setItem("tipo", data.tipo);
-                    window.location.href = "../index.html"; // Redirige a la página de inicio
-                } else if (response.status === 400) {
-                    console.error("Error en el registro. Datos incorrectos.");
-                } else if (response.status === 409) {
-                    console.error("Error: nombre_usuario o email en uso");
-                } else {
-                    console.error("Error en el servidor.");
-                }
-            } catch (error) {
-                console.error("Error en la solicitud:", error);
+    if (formValido) {
+        const formData = new FormData();
+        formData.append("nombre", document.getElementById("nombre").value);
+        formData.append("apellido1", document.getElementById("ape1").value);
+        formData.append("apellido2", document.getElementById("ape2").value);
+        formData.append("email", document.getElementById("correo").value);
+        formData.append("nombre_usuario", document.getElementById("user").value);
+        formData.append("contrasena", document.getElementById("contra").value);
+
+        try {
+            const response = await fetch("http://localhost/www/ApiTapas/api/clientes/", {
+                method: "POST",
+                body: formData
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                sessionStorage.setItem("token", data.token);
+                sessionStorage.setItem("usuario", data.usuario);
+                sessionStorage.setItem("tipo", data.tipo);
+                window.location.href = "../index.html";
+            } else if (response.status === 400) {
+                errores.textContent = "Error en el registro. Datos incorrectos.";
+            } else if (response.status === 409) {
+                const data = await response.json();
+                errores.textContent = data.error;
+            } else {
+                errores.textContent = "Error en el servidor.";
             }
+        } catch (error) {
+            errores.textContent = "Error en la solicitud:";
         }
+    }
 });
 
 

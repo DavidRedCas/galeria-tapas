@@ -21,7 +21,7 @@
     </header>
 
     <h2>Formulario de registro</h2>
-    <p id="erroresLogin">ANSJKGHFUAHOIHDO</p>
+    <p id="erroresLogin"></p>
     <p class="leyenda">Los elementos que contengan el símbolo (<span>*</span>) deberán ser completados obligatoriamente.</p>
     <form action="" method="">
         <table>
@@ -30,7 +30,7 @@
             </tr>
             <tr>
                 <td class="alinear"><label for="nombre">Nombre<span>*</span>: </label></td>
-                <td><input type="text" id="nombre" required/></td>
+                <td><input type="text" id="nombre"/></td>
                 
             </tr>
             <tr id="errornombre" class="escondido">
@@ -39,7 +39,7 @@
 
             <tr>
                 <td class="alinear"><label for="ape1">Primer apellido<span>*</span>: </label></td>
-                <td><input type="text" id="ape1" required/></td>
+                <td><input type="text" id="ape1"/></td>
             </tr>
             <tr id="errorape1" class="escondido">
                 <td colspan="2"><p class="error">El apellido solo debe contener letras, empezar por mayúscula y tener una longitud de 3-20 caracteres.</p></td>
@@ -55,7 +55,7 @@
 
             <tr>
                 <td class="alinear"><label for="correo">Correo electrónico<span>*</span>: </label></td>
-                <td><input type="text" id="correo" placeholder="ejemplocorreo@correo.com" required/></td>
+                <td><input type="text" id="correo" placeholder="ejemplocorreo@correo.com"/></td>
             </tr>
             <tr id="errorcorreo" class="escondido">
                 <td colspan="2"><p class="error">El correo electrónico introducido no es válido.</p></td>
@@ -67,7 +67,7 @@
 
             <tr>
                 <td class="alinear"><label for="user">Nombre de usuario<span>*</span>: </label></td>
-                <td><input type="text" id="user" required/></td>
+                <td><input type="text" id="user"/></td>
             </tr>
             <tr id="erroruser" class="escondido">
                 <td colspan="2"><p class="error">El nombre de usuario debe tener entre 4 y 25 caracteres, solo puede contener letras, números y guiones bajos, y no debe comenzar con un guion bajo.</p></td>
@@ -75,7 +75,7 @@
 
             <tr>
                 <td class="alinear"><label for="contra">Contraseña<span>*</span>: </label></td>
-                <td><input type="password" id="contra" required/></td>
+                <td><input type="password" id="contra"/></td>
             </tr>
             <tr id="errorcontra" class="escondido">
                 <td colspan="2"><p class="error">La contraseña debe tener una longitud de al menos 8 caracteres, una minúscula, una mayúscula, un número y un símbolo.</p></td>
@@ -83,7 +83,7 @@
 
             <tr>
                 <td class="alinear"><label for="confContra">Confirmación de contraseña<span>*</span>: </label></td>
-                <td><input type="password" id="confContra" required/></td>
+                <td><input type="password" id="confContra"/></td>
             </tr>
             <tr id="errorconfContra" class="escondido">
                 <td colspan="2"><p class="error">Las contraseñas no coinciden.</p></td>
@@ -91,7 +91,7 @@
 
             <tr>
                 <td class="alinear"><label for="politica">Aceptar la <a id="enlace_politica" href="">política de privacidad</a><span>*</span>: </label></td>
-                <td><input type="checkbox" id="politica" required/></td>
+                <td><input type="checkbox" id="politica"/></td>
             </tr>
             <tr id="errorpolitica" class="escondido">
                 <td colspan="2"><p class="error">Para continuar, acepte la política de privacidad.</p></td>
