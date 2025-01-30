@@ -22,8 +22,12 @@ document.getElementById("mostrar-favoritos").addEventListener("click", (event) =
 document.querySelector(".grid-galeria").addEventListener("click", (event) => {
     const clickedElement = event.target;
 
-    if (tipo !== null && (clickedElement.classList.contains("no-favorito") || clickedElement.classList.contains("favorito"))) {
-        cambiarFavorito(clickedElement);
+    if (tipo !== null){
+        if(clickedElement.classList.contains("no-favorito")){
+            añadirFavorito(clickedElement);
+        }else if (clickedElement.classList.contains("favorito")) {
+            eliminarFavorito(clickedElement);
+        }
     }
     if(tipo==="admin"){
         if(clickedElement.classList.contains("editar")){
@@ -37,15 +41,6 @@ document.querySelector(".grid-galeria").addEventListener("click", (event) => {
         }
     }
 });
-
-function agregarTapa(nuevaTapa) {
-    const ultimoElemento = tapasArray[tapasArray.length - 1];
-    const nuevoId = ultimoElemento ? ultimoElemento.id + 1 : 0;
-
-    nuevaTapa.id = nuevoId;
-
-    tapasArray.push(nuevaTapa);
-}
 
 document.addEventListener("DOMContentLoaded", () => {
     obtenerNombreBares().then(baresMapa => {
@@ -74,22 +69,42 @@ async function obtenerNombreBares() {
 
 async function obtenerFavoritos(tapaId) {
     try {
-        const response = await fetch(urlBase+`favoritos/?tapa=${tapaId}`);
+        const response = await fetch(`${urlBase}favoritos/?tapa=${tapaId}`);
         const data = await response.json();
         return data.total_favoritos || 0;
     } catch (error) {
-        console.error(`Error al obtener favoritos para tapa ${tapaId}:`, error);
         return 0;
     }
 }
 
+async function obtenerFavoritosCliente() {
+    let favoritosCliente = [];
+    if (token) {
+        try {
+            const response = await fetch(`${urlBase}favoritos/`, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+    
+            if (response.ok) {
+                favoritosCliente = await response.json();
+            }
+        } catch (error) {}
+    }
+    return favoritosCliente;
+}
+
 async function obtenerTapas(baresMapa) {
-    return fetch(urlBase+'tapas/')
+    const favoritosCliente = await obtenerFavoritosCliente();
+    return fetch(`${urlBase}tapas/`)
         .then(response => response.json())
         .then(tapasData => {
             const tapasConFavoritos = tapasData.map(async tapa => {
                 const nombreBar = baresMapa[parseInt(tapa.bar)] || 'Bar desconocido';
                 const numFavoritos = await obtenerFavoritos(tapa.id_tapa);
+                const esFavorito = favoritosCliente.some(fav => fav.tapa === tapa.id_tapa);
+
                 return {
                     id: parseInt(tapa.id_tapa),
                     titulo: tapa.titulo,
@@ -97,7 +112,7 @@ async function obtenerTapas(baresMapa) {
                     imagen: tapa.imagen,
                     descripcion: tapa.descripcion,
                     bar: nombreBar,
-                    favorito: false,
+                    favorito: esFavorito,
                     numFavoritos: numFavoritos
                 };
             });
@@ -286,63 +301,112 @@ function renderizarControlesPaginacion(elementos) {
     }
 }
 
-function cambiarFavorito(elemento) {
+async function añadirFavorito(elemento) {
     const elementoGrid = elemento.closest(".elemento-grid");
     const id = elementoGrid.getAttribute("data-id");
 
     const favorito = elementoGrid.querySelector(".favorito");
     const noFavorito = elementoGrid.querySelector(".no-favorito");
+    const numFavoritos = elementoGrid.querySelector(".numFavoritos");
 
-    favorito.classList.toggle("escondido");
-    noFavorito.classList.toggle("escondido");
+    const formData = new FormData();
+    formData.append("tapa", id);
 
-    const index = tapasArray.findIndex(e => e.id == id);
-    if (index !== -1) {
-        tapasArray[index].favorito = !tapasArray[index].favorito;
+    try {
+        const response = await fetch(`${urlBase}favoritos/`, { 
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+            },
+            body: formData,
+        });
+
+        if (response.ok) {
+            favorito.classList.remove("escondido");
+            noFavorito.classList.add("escondido");
+
+            const index = tapasArray.findIndex(e => e.id == id);
+            if (index !== -1) {
+                tapasArray[index].numFavoritos++;
+
+                numFavoritos.textContent = tapasArray[index].numFavoritos;
+            }
+        } else {
+            console.error("Error al añadir favorito.");
+        }
+    } catch (error) {
+        console.error("Error en la solicitud:", error);
+    }
+}
+
+async function eliminarFavorito(elemento) {
+    const elementoGrid = elemento.closest(".elemento-grid");
+    const id = elementoGrid.getAttribute("data-id");
+
+    const favorito = elementoGrid.querySelector(".favorito");
+    const noFavorito = elementoGrid.querySelector(".no-favorito");
+    const numFavoritos = elementoGrid.querySelector(".numFavoritos");
+
+    try {
+        const response = await fetch(`${urlBase}favoritos/?tapa=${id}`, { 
+            method: "DELETE",
+            headers: {
+                "Authorization": `Bearer ${token}`
+            }
+        });
+
+        if (response.ok) {
+            favorito.classList.add("escondido");
+            noFavorito.classList.remove("escondido");
+
+            const index = tapasArray.findIndex(e => e.id == id);
+            if (index !== -1) {
+                tapasArray[index].numFavoritos--;
+
+                if (tapasArray[index].numFavoritos < 0) {
+                    tapasArray[index].numFavoritos = 0;
+                }
+
+                numFavoritos.textContent = tapasArray[index].numFavoritos;
+            }
+        } else {
+            console.error("Error al eliminar favorito.");
+        }
+    } catch (error) {
+        console.error("Error en la solicitud:", error);
     }
 }
 
 async function eliminarTapa(elemento) {
-    // Obtener el ID y nombre de la tapa
     const elementoGrid = elemento.closest(".elemento-grid");
     const id = parseInt(elementoGrid.getAttribute("data-id"));
     const nombreTapa = elementoGrid.querySelector(".texto-tapa strong").textContent;
 
-    // Mostrar el nombre de la tapa en el modal
     document.getElementById("nombreTapaEliminar").textContent = nombreTapa;
 
-    // Crear y mostrar el modal de confirmación
     const modal = new bootstrap.Modal(document.getElementById("modalConfirmarEliminacion"));
     modal.show();
 
-    // Agregar el evento de confirmación
     document.getElementById("confirmarEliminacion").addEventListener("click", async () => {
-        // Realizar la solicitud DELETE usando fetch
         try {
             const response = await fetch(urlBase+`tapas/?id=${id}`, {
                 method: 'DELETE',
                 headers: {
-                    'Authorization': 'Bearer ' + token // Asegúrate de pasar el JWT correctamente
+                    'Authorization': `Bearer ${token}`
                 }
             });
 
-            // Si la respuesta es exitosa
             if (response.ok) {
-                // Eliminar la tapa localmente
                 tapasArray = tapasArray.filter(tapa => tapa.id !== id);
 
-                // Volver a renderizar la galería
                 renderizarGaleriaConPaginacion(tapasArray);
 
-                // Cerrar el modal
                 modal.hide();
             } else {
-                // Manejar el error, por ejemplo, mostrar un mensaje de error
-                alert('Error al eliminar la tapa. Inténtalo nuevamente.');
+                console.error('Error al eliminar la tapa. Inténtalo nuevamente.');
             }
         } catch (error) {
-            // Manejar cualquier error de la solicitud (ej. problemas de red)
-            alert('Error al eliminar la tapa. Inténtalo nuevamente.');
+            console.error('Error al eliminar la tapa. Inténtalo nuevamente.');
         }
     });
 }
@@ -398,42 +462,37 @@ async function guardarCambiosTapa(elemento) {
     const elementoGrid = elemento.closest(".elemento-grid");
     const id = parseInt(elementoGrid.getAttribute("data-id"));
     
-    // Obtener los nuevos valores de los campos editados
     const inputTitulo = document.getElementById(`titulo-${id}`);
     const textareaDescripcion = document.getElementById(`descripcion-${id}`);
     const selectBar = document.getElementById(`bar-${id}`);
     
     const nuevoTitulo = inputTitulo.value;
     const nuevaDescripcion = textareaDescripcion.value;
-    const nuevoBarId = selectBar.value;  // Enviar el ID del bar directamente
+    const nuevoBarId = selectBar.value;
     const nuevoBarNombre = bares[nuevoBarId];
     
-    // Crear un objeto con los datos para actualizar la tapa
     const tapaActualizada = {
         id: id,
         titulo: nuevoTitulo,
         descripcion: nuevaDescripcion,
-        bar: nuevoBarId,  // Enviar el ID del bar aquí
+        bar: nuevoBarId,
     };
 
     try {
-        // Enviar la solicitud PUT al backend para actualizar la tapa
         const response = await fetch(urlBase+'tapas/', {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded',
-                'Authorization': 'Bearer ' + token, // Aquí debes poner el token JWT
+                'Authorization': `Bearer ${token}`,
             },
             body: new URLSearchParams(tapaActualizada),
         });
 
-        // Manejo de la respuesta
         if (response.ok) {
             const data = await response.json();
             if (data.id_tapa) {
-                // Si la respuesta es exitosa, actualizamos los datos en la interfaz de usuario
                 const parafoBar = document.createElement("u");
-                parafoBar.textContent = nuevoBarNombre;  // Mostrar el ID del bar (si se desea mostrar el nombre, tendrías que mapearlo)
+                parafoBar.textContent = nuevoBarNombre;
 
                 const tituloElemento = document.createElement("strong");
                 tituloElemento.textContent = nuevoTitulo;
@@ -441,18 +500,15 @@ async function guardarCambiosTapa(elemento) {
                 const descripcionElemento = document.createElement("span");
                 descripcionElemento.textContent = nuevaDescripcion;
 
-                // Reemplazar los campos editados por los nuevos valores
                 inputTitulo.replaceWith(tituloElemento);
                 textareaDescripcion.replaceWith(descripcionElemento);
                 selectBar.replaceWith(parafoBar);
 
-                // Cambiar los botones
                 const editar = elementoGrid.querySelector(".editar");
                 const guardar = elementoGrid.querySelector(".guardar");
                 const eliminar = elementoGrid.querySelector(".eliminar");
                 const cancelar = elementoGrid.querySelector(".cancelar");
 
-                // Restablecer los botones a su estado original
                 editar.classList.remove("escondido");
                 guardar.classList.add("escondido");
                 eliminar.classList.remove("escondido");

@@ -47,7 +47,7 @@ document.getElementById("form-tapa").addEventListener("submit", async (event) =>
         const response = await fetch(urlBase+'tapas/', { // Reemplaza con la URL de tu API
             method: 'POST',
             headers: {
-                'Authorization': 'Bearer ' + token, // Aquí pones el token JWT si es necesario
+                'Authorization': `Bearer ${token}`, // Aquí pones el token JWT si es necesario
             },
             body: formData,
         });
