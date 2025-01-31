@@ -59,3 +59,8 @@ Además de ajustarse las columnas, el tamaño de las tarjetas de cada tapa y el 
 Los textos usan unidades "rem", por lo que tienen un tamaño responsivo.
 Las barras de búsqueda adaptan su ancho a la resolución de la pantalla.
 Se ha usado bootstrap para la navbar, el carrusel y la modal de eliminación.
+
+# Base de Datos:
+Necetas XAMMP con Apache y SQL.
+El proyecto tiene que estar en htdocs/www
+Importar la base de datos con y crear el usuario con lo que esta en usuario-db.txt
