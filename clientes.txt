@@ -1,0 +1,6 @@
+nombre_usuario, contrasena, tipo, email
+lidiaSG, Alumn@123, admin, lidia@example.com
+mlopez, Maria@2023, user, maria.lopez@example.com
+carlos_h, Carlos#Pass2, user, carlos.hernandez@example.com
+ana_rd, SecureAna1$, user, ana.ramirez@example.com
+luisg, Luis*Pass8!, user, luis.garcia@example.com
