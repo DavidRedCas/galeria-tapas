@@ -98,6 +98,11 @@ input[type="checkbox"] {
     box-shadow: 0px 0px 0px 1px gray;
 }
 
+table input[type="text"], table input[type="password"], .politica{
+    display: flex;
+    justify-content: left;
+}
+
 /* Cuando ESTÁ marcado, cambiaremos el borde y el fondo a azul */
 input[type="checkbox"]:checked {
     background-color: #2196F3; 
