@@ -467,6 +467,8 @@ async function eliminarTapa(elemento) {
     const modal = new bootstrap.Modal(document.getElementById("modalConfirmarEliminacion"));
     modal.show();
 
+    document.getElementById("modalConfirmarEliminacion").focus();
+
     document.getElementById("confirmarEliminacion").addEventListener("click", async () => {
         try {
             const response = await fetch(urlBase+`tapas/?id=${id}`, {
