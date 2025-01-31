@@ -11,24 +11,26 @@ const token = sessionStorage.getItem("token");
 let mostrarSoloFavoritos = false;
 
 document.querySelector(".grid-galeria").addEventListener("click", (event) => {
-    const clickedElement = event.target;
+    const clickedElement = event.target.closest("button");
 
-    if (tipo !== null){
-        if(clickedElement.classList.contains("no-favorito")){
-            añadirFavorito(clickedElement);
-        }else if (clickedElement.classList.contains("favorito")) {
-            eliminarFavorito(clickedElement);
+    if (clickedElement !== null){
+        if (tipo !== null){
+            if(clickedElement.classList.contains("no-favorito")){
+                añadirFavorito(clickedElement);
+            }else if (clickedElement.classList.contains("favorito")) {
+                eliminarFavorito(clickedElement);
+            }
         }
-    }
-    if(tipo==="admin"){
-        if(clickedElement.classList.contains("editar")){
-            editarTapa(clickedElement);
-        }else if(clickedElement.classList.contains("eliminar")){
-            eliminarTapa(clickedElement);
-        }else if(clickedElement.classList.contains("guardar")){
-            guardarCambiosTapa(clickedElement);
-        }else if(clickedElement.classList.contains("cancelar")){
-            cancelarCambiosTapa(clickedElement);
+        if(tipo==="admin"){
+            if(clickedElement.classList.contains("editar")){
+                editarTapa(clickedElement);
+            }else if(clickedElement.classList.contains("eliminar")){
+                eliminarTapa(clickedElement);
+            }else if(clickedElement.classList.contains("guardar")){
+                guardarCambiosTapa(clickedElement);
+            }else if(clickedElement.classList.contains("cancelar")){
+                cancelarCambiosTapa(clickedElement);
+            }
         }
     }
 });
@@ -230,14 +232,18 @@ function crearElementoGrid(elemento) {
     picture.appendChild(sourceLarge);
 
     const img = document.createElement("img");
+    img.className = "img";
     img.src = "img/1080/"+imagen;
     img.alt = elemento.alt;
     picture.appendChild(img);
 
+    const noFavoritoBtn = document.createElement("button");
+    noFavoritoBtn.className = "boton-galeria no-favorito";
+    noFavoritoBtn.setAttribute("aria-label", "Marcar como favorito");
     const noFavoritoImg = document.createElement("img");
-    noFavoritoImg.className = "boton-galeria no-favorito";
+    noFavoritoImg.className = "boton-galeria";
     noFavoritoImg.src = "img/vect/star.svg";
-    noFavoritoImg.alt = "Marcar como favorito";
+    noFavoritoBtn.appendChild(noFavoritoImg);
 
     const numFavoritos = document.createElement("p");
     numFavoritos.textContent = elemento.numFavoritos;
@@ -246,47 +252,62 @@ function crearElementoGrid(elemento) {
     const botonesGaleria = document.createElement("div");
     botonesGaleria.className = "botones-galeria";
     if(tipo !== null){
+        const favoritoBtn = document.createElement("button");
+        favoritoBtn.className = "boton-galeria favorito";
+        favoritoBtn.setAttribute("aria-label", "Marcado como favorito");
         const favoritoImg = document.createElement("img");
-        favoritoImg.className = "boton-galeria favorito";
+        favoritoImg.className = "boton-galeria";
         favoritoImg.src = "img/vect/star-fill.svg";
-        favoritoImg.alt = "Marcado como favorito";
+        favoritoBtn.appendChild(favoritoImg);
     
         if (elemento.favorito) {
-            favoritoImg.classList.remove("escondido");
-            noFavoritoImg.classList.add("escondido");
+            favoritoBtn.classList.remove("escondido");
+            noFavoritoBtn.classList.add("escondido");
         } else {
-            favoritoImg.classList.add("escondido");
-            noFavoritoImg.classList.remove("escondido");
+            favoritoBtn.classList.add("escondido");
+            noFavoritoBtn.classList.remove("escondido");
         }
-        botonesGaleria.appendChild(favoritoImg);
+        botonesGaleria.appendChild(favoritoBtn);
     }
-    botonesGaleria.appendChild(noFavoritoImg);
+    botonesGaleria.appendChild(noFavoritoBtn);
     botonesGaleria.appendChild(numFavoritos);
     if(tipo==="admin"){
+        const editarBtn = document.createElement("button");
+        editarBtn.className = "boton-galeria editar";
+        editarBtn.setAttribute("aria-label", "Editar");
         const editarImg = document.createElement("img");
-        editarImg.className = "boton-galeria editar";
+        editarImg.className = "boton-galeria";
         editarImg.src = "img/vect/pencil-square.svg";
-        editarImg.alt = "Editar";
+        editarBtn.appendChild(editarImg);
 
+        const guardarBtn = document.createElement("button");
+        guardarBtn.className = "boton-galeria guardar escondido";
+        guardarBtn.setAttribute("aria-label", "Guardar");
         const guardarImg = document.createElement("img");
-        guardarImg.className = "boton-galeria guardar escondido";
+        guardarImg.className = "boton-galeria";
         guardarImg.src = "img/vect/guardar.svg";
-        guardarImg.alt = "Guardar";
+        guardarBtn.appendChild(guardarImg);
 
+        const eliminarBtn = document.createElement("button");
+        eliminarBtn.className = "boton-galeria eliminar";
+        eliminarBtn.setAttribute("aria-label", "Eliminar");
         const eliminarImg = document.createElement("img");
-        eliminarImg.className = "boton-galeria eliminar";
+        eliminarImg.className = "boton-galeria";
         eliminarImg.src = "img/vect/trash.svg";
-        eliminarImg.alt = "Eliminar";
+        eliminarBtn.appendChild(eliminarImg);
 
+        const cancelarBtn = document.createElement("button");
+        cancelarBtn.className = "boton-galeria cancelar escondido";
+        cancelarBtn.setAttribute("aria-label", "Cancelar");
         const cancelarImg = document.createElement("img");
-        cancelarImg.className = "boton-galeria cancelar escondido";
+        cancelarImg.className = "boton-galeria";
         cancelarImg.src = "img/vect/cancelar.svg";
-        cancelarImg.alt = "Cancelar";
+        cancelarBtn.appendChild(cancelarImg);
 
-        botonesGaleria.appendChild(editarImg);
-        botonesGaleria.appendChild(guardarImg);
-        botonesGaleria.appendChild(eliminarImg);
-        botonesGaleria.appendChild(cancelarImg);
+        botonesGaleria.appendChild(editarBtn);
+        botonesGaleria.appendChild(guardarBtn);
+        botonesGaleria.appendChild(eliminarBtn);
+        botonesGaleria.appendChild(cancelarBtn);
     }
 
     const texto = document.createElement("div");
@@ -518,7 +539,7 @@ function editarTapa(elemento) {
 }
 
 async function guardarCambiosTapa(elemento) {
-    const elementoGrid = elemento.closest(".elemento-grid");
+    const elementoGrid = elemento.parentElement.closest(".elemento-grid");
     const id = parseInt(elementoGrid.getAttribute("data-id"));
     
     const inputTitulo = document.getElementById(`titulo-${id}`);

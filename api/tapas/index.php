@@ -179,6 +179,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'PUT') {
                         if ($con->affected_rows > 0) {
                             header("HTTP/1.1 200 OK");
                             echo json_encode(["id_tapa" => $id]);
+                        } elseif ($con->affected_rows === 0 && $con->query("SELECT 1 FROM tapas WHERE id_tapa = '$id'")->num_rows > 0) {
+                            header("HTTP/1.1 200 OK"); 
+                            echo json_encode(["id_tapa" => $id]);
                         } else {
                             header("HTTP/1.1 404 Not Found");
                         }
