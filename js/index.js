@@ -1,6 +1,6 @@
 let tapasArray = [];
 let bares = {};
-const urlBase = "http://localhost/www/ApiTapas/api/";
+const urlBase = "http://localhost/www/galeria-tapas/api/";
 
 let paginaActual = 1;
 const elementosPorPagina = 6;

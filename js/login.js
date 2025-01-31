@@ -18,7 +18,7 @@ form.addEventListener("submit", async function (event) {
         formData.append("contrasena", contrasena);
     
         try {
-            const response = await fetch("http://localhost/www/ApiTapas/api/clientes/", {
+            const response = await fetch("http://localhost/www/galeria-tapas/api/clientes/", {
                 method: "POST",
                 body: formData
             });

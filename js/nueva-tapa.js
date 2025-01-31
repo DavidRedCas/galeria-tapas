@@ -1,6 +1,6 @@
 const token = sessionStorage.getItem("token");
 
-const urlBase = "http://localhost/www/ApiTapas/api/";
+const urlBase = "http://localhost/www/galeria-tapas/api/";
 const errores = document.querySelector("#erroresLogin");
 
 document.addEventListener('DOMContentLoaded', async () => {
