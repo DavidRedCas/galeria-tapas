@@ -287,6 +287,8 @@ function eliminarTapa(elemento){
     const modal = new bootstrap.Modal(document.getElementById("modalConfirmarEliminacion"));
     modal.show();
 
+    document.getElementById("modalConfirmarEliminacion").focus();
+
     document.getElementById("confirmarEliminacion").addEventListener("click", () => {
         if (id !== null) {
             elementos = elementos.filter(elemento => elemento.id !== id);
