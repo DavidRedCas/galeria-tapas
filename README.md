@@ -89,3 +89,5 @@ La galería es fácilmente entendible para todos, todos los elementos contrastan
 ![cap daltonismo1](img/readme/image-3.png)
 ![cap daltonismo2](img/readme/image-4.png)
 En el caso de un usuario que no perciba el color rojo, los errores de la parte del registro pueden parecer bastante oscuros, por lo que cambiaremos el color de los errores por uno más claro.
+
+El modal de eliminación podria no adquirir el foco al abrirse, se asegurara que este modal adquiera el foco al abrirse.
