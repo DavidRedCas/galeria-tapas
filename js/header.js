@@ -20,7 +20,8 @@ document.addEventListener("DOMContentLoaded", function () {
             sessionStorage.removeItem("tipo");
             sessionStorage.removeItem("usuario");
             sessionStorage.removeItem("token");
-            location.reload();
+            let rutaBase = window.location.pathname.includes("/html/") ? "../index.html" : "index.html";
+            window.location.href = rutaBase;
         });
         botonesMenu.appendChild(botonCerrar);
     } else {

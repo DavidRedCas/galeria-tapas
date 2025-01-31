@@ -23,19 +23,19 @@
     <div class="formulario">
         <h1 id="tituloNueva">Añadir Nueva Tapa</h1>
         <p id="erroresLogin"></p>
+        <p class="leyenda">Los elementos que contengan el símbolo (<span>*</span>) deberán ser completados obligatoriamente.</p>
         <form id="form-tapa">
-            <label for="titulo">Título:</label><br>
-            <input type="text" id="titulo" required><br>
+            <label for="titulo">Título<span>*</span>:</label><br>
+            <input type="text" id="titulo"><br>
             
-            <label for="descripcion">Descripción:</label><br>
-            <textarea id="descripcion" required></textarea><br>
+            <label for="descripcion">Descripción<span>*</span>:</label><br>
+            <textarea id="descripcion"></textarea><br>
 
-            <label for="alt">Texto alternativo:</label><br>
-            <input type="text" id="alt" required><br>
+            <label for="alt">Texto alternativo<span>*</span>:</label><br>
+            <input type="text" id="alt"><br>
             
-            <label for="bar">Bar:</label><br>
-            <select id="bar" required>
-                <option value="">Selecciona un bar</option>
+            <label for="bar">Bar<span>*</span>:</label><br>
+            <select id="bar">
                 <!-- Aquí se agregarán las opciones de bares de manera dinámica -->
             </select><br>
             

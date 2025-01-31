@@ -44,6 +44,13 @@ document.addEventListener("DOMContentLoaded", () => {
             mostrarMensajeGaleria("No hay tapas disponibles.");
         });
     });
+    const botonesFiltrar = document.querySelector(".botones-filtrar");
+
+    if (tipo === null) {
+        botonesFiltrar.classList.add("escondido");;
+    } else {
+        botonesFiltrar.classList.remove("escondido");;
+    }
 });
 
 async function obtenerNombreBares() {
@@ -121,14 +128,18 @@ async function obtenerTapas(baresMapa) {
 
 document.getElementById("mostrar-todos").addEventListener("click", (event) => {
     event.preventDefault();
-    mostrarSoloFavoritos = false;
-    filtrarYMostrarTapas();
+    if (tipo !== null){
+        mostrarSoloFavoritos = false;
+        filtrarYMostrarTapas();
+    }
 });
 
 document.getElementById("mostrar-favoritos").addEventListener("click", (event) => {
     event.preventDefault();
-    mostrarSoloFavoritos = true;
-    filtrarYMostrarTapas();
+    if (tipo !== null){
+        mostrarSoloFavoritos = true;
+        filtrarYMostrarTapas();
+    }
 });
 
 document.querySelector(".buscar input").addEventListener("input", () => {
