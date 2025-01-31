@@ -223,16 +223,6 @@ ALTER TABLE `favoritos`
 --
 ALTER TABLE `tapas`
   ADD CONSTRAINT `tapas_ibfk_1` FOREIGN KEY (`bar`) REFERENCES `bares` (`id_bar`) ON DELETE CASCADE;
-
--- Crear un nuevo usuario
-CREATE USER 'tapleon'@'localhost' IDENTIFIED BY 'tapleon';
-
--- Otorgar privilegios completos al usuario sobre la base de datos 'tapleon'
-GRANT ALL PRIVILEGES ON tapleon.* TO 'tapleon'@'localhost';
-
--- Asegurarse de que los privilegios se apliquen inmediatamente
-FLUSH PRIVILEGES;
-
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

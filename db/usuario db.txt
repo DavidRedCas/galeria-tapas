@@ -1,0 +1,8 @@
+-- Crear un nuevo usuario
+CREATE USER 'tapleon'@'localhost' IDENTIFIED BY 'tapleon';
+
+-- Otorgar privilegios completos al usuario sobre la base de datos 'tapleon'
+GRANT ALL PRIVILEGES ON tapleon.* TO 'tapleon'@'localhost';
+
+-- Asegurarse de que los privilegios se apliquen inmediatamente
+FLUSH PRIVILEGES;
