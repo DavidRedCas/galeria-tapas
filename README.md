@@ -59,3 +59,33 @@ Además de ajustarse las columnas, el tamaño de las tarjetas de cada tapa y el 
 Los textos usan unidades "rem", por lo que tienen un tamaño responsivo.
 Las barras de búsqueda adaptan su ancho a la resolución de la pantalla.
 Se ha usado bootstrap para la navbar, el carrusel y la modal de eliminación.
+
+-----------------------------------------------------------------------------------
+
+# Mejora de Accesibilidad:
+
+## Análisis de Accesibilidad Basado en las WCAG 2.2:
+
+Principio 1: Perceptible
+- 1.3.4 Orientación (AA)
+
+Principio 2: Operable
+- 2.3.2 Tres flashes (AAA)
+
+Principio 3: Comprensible
+- 3.2.1 En foco (A)
+
+
+## Evaluación Manual de la Interfaz Actual:
+
+
+
+Para comprobar si la página da problemas a personas con movilidad reducida, hemos comprobado que ninguna acción requiera multitouch y que todas las funcionalidades sean accesibles con teclado.
+
+Se arreglarán los botones de la galería (favorito, editar y eliminar), ya que no son accesibles mediante el teclado.
+
+Para comprobar si la página da problemas a personas con daltonismo, hemos usado la extensión "Let's get colorblind", y hemos probado los diferentes tipos de daltonismo.
+La galería es fácilmente entendible para todos, todos los elementos contrastan claramente y se identifican sin problemas.
+![cap daltonismo1](img/readme/image-3.png)
+![cap daltonismo2](img/readme/image-4.png)
+En el caso de un usuario que no perciba el color rojo, los errores de la parte del registro pueden parecer bastante oscuros, por lo que cambiaremos el color de los errores por uno más claro.
