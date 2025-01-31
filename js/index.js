@@ -8,16 +8,7 @@ const elementosPorPagina = 6;
 const tipo = sessionStorage.getItem("tipo");
 const token = sessionStorage.getItem("token");
 
-document.getElementById("mostrar-todos").addEventListener("click", (event) => {
-    event.preventDefault();
-    renderizarGaleriaConPaginacion(tapasArray);
-});
-
-document.getElementById("mostrar-favoritos").addEventListener("click", (event) => {
-    event.preventDefault();
-    const favoritos = tapasArray.filter(elemento => elemento.favorito);
-    renderizarGaleriaConPaginacion(favoritos);
-});
+let mostrarSoloFavoritos = false;
 
 document.querySelector(".grid-galeria").addEventListener("click", (event) => {
     const clickedElement = event.target;
@@ -45,9 +36,12 @@ document.querySelector(".grid-galeria").addEventListener("click", (event) => {
 document.addEventListener("DOMContentLoaded", () => {
     obtenerNombreBares().then(baresMapa => {
         bares = baresMapa;
-        obtenerTapas(bares).then(tapas => {
+        obtenerTapas(bares)
+        .then(tapas => {
             tapasArray = tapas;
-            renderizarGaleriaConPaginacion(tapasArray);
+            filtrarYMostrarTapas();
+        }).catch(() => {
+            mostrarMensajeGaleria("No hay tapas disponibles.");
         });
     });
 });
@@ -125,6 +119,60 @@ async function obtenerTapas(baresMapa) {
         });
 }
 
+document.getElementById("mostrar-todos").addEventListener("click", (event) => {
+    event.preventDefault();
+    mostrarSoloFavoritos = false;
+    filtrarYMostrarTapas();
+});
+
+document.getElementById("mostrar-favoritos").addEventListener("click", (event) => {
+    event.preventDefault();
+    mostrarSoloFavoritos = true;
+    filtrarYMostrarTapas();
+});
+
+document.querySelector(".buscar input").addEventListener("input", () => {
+    filtrarYMostrarTapas();
+});
+
+function filtrarYMostrarTapas() {
+    const termino = document.querySelector(".buscar input").value.toLowerCase();
+    let resultados = tapasArray.filter(tapa => 
+        tapa.titulo.toLowerCase().includes(termino) || 
+        tapa.descripcion.toLowerCase().includes(termino) ||
+        tapa.bar.toLowerCase().includes(termino)
+    );
+
+    if (mostrarSoloFavoritos) {
+        resultados = resultados.filter(tapa => tapa.favorito);
+    }
+
+    if (tapasArray.length === 0) {
+        mostrarMensajeGaleria("No hay tapas disponibles.");
+    } else if (resultados.length === 0) {
+        mostrarMensajeGaleria("No hay coincidencias para la búsqueda.");
+    } else {
+        ocultarMensajeGaleria();
+        renderizarGaleriaConPaginacion(resultados);
+    }
+}
+
+function mostrarMensajeGaleria(mensaje) {
+    const gridGaleria = document.querySelector(".grid-galeria");
+    const paginacion = document.querySelector(".paginacion");
+    const mensajeElemento = document.getElementById("mensaje-galeria");
+    
+    gridGaleria.classList.add("escondido");
+    paginacion.classList.add("escondido");
+    mensajeElemento.textContent = mensaje;
+    mensajeElemento.classList.remove("escondido");
+}
+
+function ocultarMensajeGaleria() {
+    document.querySelector(".grid-galeria").classList.remove("escondido");
+    document.querySelector(".paginacion").classList.remove("escondido");
+    document.getElementById("mensaje-galeria").classList.add("escondido");
+}
 
 function renderizarGaleriaConPaginacion(elementos) {
     const inicio = (paginaActual-1) * elementosPorPagina;

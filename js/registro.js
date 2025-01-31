@@ -1,11 +1,10 @@
 const formulario = document.querySelector("form");
 formulario.addEventListener("submit", async function(event) {
-    event.preventDefault();  // Evitar el envío por defecto del formulario
+    event.preventDefault();
     
     const errores = document.querySelector("#erroresLogin");
     let formValido = true;
 
-    // Validación de todos los campos
     if (!validarNombre()) formValido = false;
     if (!validarPrimerApellido()) formValido = false;
     if (!validarSegundoApellido()) formValido = false;

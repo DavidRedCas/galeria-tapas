@@ -91,16 +91,6 @@ button:hover{
     cursor: pointer;
 }
 
-.boton-buscar{
-    background-color: whitesmoke;
-    margin-right: 30px;
-    border: 3px solid gray;
-}
-
-.boton-buscar:hover{
-    background-color: lightgray;
-}
-
 .botones-menu{
     margin-right: 50px;
 }
@@ -410,6 +400,10 @@ textarea{
 .paginacion button:hover{
     background-color: #383838;
 }
+
+#mensaje-galeria{
+    margin: 0px 5px 50px 5px;
+}
   
 footer{
     width: 100%;
@@ -435,6 +429,10 @@ footer p{
 
 .contenedor-redes img:hover{
     cursor: pointer;
+}
+
+#erroresLogin{
+    color: red;
 }
 
 @media (max-width: 1350px) {

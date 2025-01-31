@@ -2,7 +2,7 @@
 const form = document.querySelector("form");
 
 form.addEventListener("submit", async function (event) {
-    event.preventDefault(); // Evita que el formulario se envíe de forma tradicional
+    event.preventDefault();
     const errores = document.querySelector("#erroresLogin");
 
     const usuario = document.querySelector("#user").value;
@@ -28,7 +28,7 @@ form.addEventListener("submit", async function (event) {
                 sessionStorage.setItem("token", data.token);
                 sessionStorage.setItem("usuario", data.usuario);
                 sessionStorage.setItem("tipo", data.tipo);
-                window.location.href = "../index.html"; // Redirige a la página de inicio
+                window.location.href = "../index.html";
             } else if (response.status === 401) {
                 errores.textContent = "Contraseña incorrecta";
             } else if (response.status === 404) {
