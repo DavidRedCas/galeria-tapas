@@ -166,6 +166,10 @@ button:active{
     transform: scale(1);
 }
 
+.desc-carrusel{
+    font-size: 1.3rem;
+}
+
 .creditos {
     color: whitesmoke;
     font-size: 1.2rem;
@@ -318,6 +322,11 @@ strong{
     width: 32px;
     position: absolute;
     transition: 0.2s ease;
+    background-color: #00000000;
+    img{
+        top: 2px;
+        right: 0px;
+    }
 }
 
 .no-favorito{

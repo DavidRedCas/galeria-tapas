@@ -27,7 +27,7 @@ h1, th{
 }
 
 span{
-    color: red;
+    color: #ff4343;
 }
 
 table{
@@ -74,7 +74,7 @@ input[type=submit]:active {
 }
 
 .errorInput{
-    border: 2px solid red;
+    border: 2px solid #ff4343;
     border-radius: 3px;
 }
 
@@ -117,7 +117,7 @@ input[type="checkbox"]:checked::after {
 .errorCheckbox{
     /* Cuando NO está marcado, el borde será rojo */
     box-shadow: none;
-    border: 2px solid red;
+    border: 2px solid #ff4343;
     border-radius: 4px;
     cursor: pointer;
     background-color: #fff;
@@ -128,7 +128,7 @@ input[type="checkbox"]:checked::after {
     display: flex;
     justify-content: center;
     font-size: 1rem;
-    color: red;
+    color: #ff4343;
     margin-top: -5px;
 }
 

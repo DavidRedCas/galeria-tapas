@@ -68,20 +68,23 @@ Se ha usado bootstrap para la navbar, el carrusel y la modal de eliminación.
 
 Principio 1: Perceptible
 - 1.3.4 Orientación (AA)
+La página web funciona sin problemas independientemente de la orientación del dispositivo (horizontal o vertical). Esto ayuda a personas que requiren que su dispositivo esté montado sobre un soporte físico fijo.
 
 Principio 2: Operable
 - 2.3.2 Tres flashes (AAA)
+Evita contenido que parpadee más de tres veces por segundo para reducir el riesgo de provocar ataques en personas con epilepsia fotosensible.
 
 Principio 3: Comprensible
 - 3.2.1 En foco (A)
+Garantiza que cuando un elemento de la interfaz recibe foco, no se produzcan cambios inesperados en la página, como desplazamientos automáticos o ventanas emergentes, para facilitar el uso mediante solo teclado o lectores de pantalla.
 
 
 ## Evaluación Manual de la Interfaz Actual:
 
-
+Para comprobar si la página da problemas a personas con discapacidad visual, hemos usado el narrador de Windows para navegar por ella. Todas las imágenes tienen un alt y la mayoría de las opciones son accesibles.
+![cap narrador](img/readme/image-5.png)
 
 Para comprobar si la página da problemas a personas con movilidad reducida, hemos comprobado que ninguna acción requiera multitouch y que todas las funcionalidades sean accesibles con teclado.
-
 Se arreglarán los botones de la galería (favorito, editar y eliminar), ya que no son accesibles mediante el teclado.
 
 Para comprobar si la página da problemas a personas con daltonismo, hemos usado la extensión "Let's get colorblind", y hemos probado los diferentes tipos de daltonismo.
@@ -90,4 +93,23 @@ La galería es fácilmente entendible para todos, todos los elementos contrastan
 ![cap daltonismo2](img/readme/image-4.png)
 En el caso de un usuario que no perciba el color rojo, los errores de la parte del registro pueden parecer bastante oscuros, por lo que cambiaremos el color de los errores por uno más claro.
 
-El modal de eliminación podria no adquirir el foco al abrirse, se asegurara que este modal adquiera el foco al abrirse.
+El modal de eliminación podría no adquirir el foco al abrirse, se asegurará que este modal adquiera el foco al abrirse.
+
+
+## Evaluación Automática con Herramientas de Accesibilidad:
+
+Hemos usado Lighthouse y Wave como herramientas automáticas de accesibilidad.
+En lighthouse, solo nos marcaba como problema un h5, perteneciente a la descripción de las tapas del carrusel. El problema se produce porque nos hemos saltado niveles de encabezado.
+![cap lighthouse](img/readme/image.png)
+
+En Wave no salta un error porque la barra de búsqueda es un input y no tiene asociado un label. También muestra 3 errores de contraste, pero se refieren a elementos ocultos, así que no afectan a la visibilidad. También nos da 3 alertas, una porque el alt de la imagen del logo es muy escaso, y 2 por los h5 que también nos marcaba en Lighthouse.
+![cap wave](img/readme/image-1.png)
+![cap wave alt h1](img/readme/image-2.png)
+
+
+## Propuesta de Mejoras:
+
+- Sustituir el h5 del carrusel por un párrafo, para evitar saltarnos encabezados y evitar problemas con lectores de pantalla.
+- Cambiar el color rojo de los mensajes de error de login por uno más claro para que los usuarios que no perciban el color rojo no vean el texto tan oscuro.
+- Los iconos de las tarjetas de la galería se han metido en botones para poder usarse desde el teclado.
+- El modal de eliminación ahora adquiere el foco al abrirse para poder controlarse desde el teclado.
